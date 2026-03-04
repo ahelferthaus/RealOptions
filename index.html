@@ -4,103 +4,117 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Janus Henderson M&A Real Options Analysis</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; color: #2D2D2D; background: #F5F5F5; }
+        :root { --primary: #003B5C; --secondary: #0077C8; --gold: #C9A961; --success: #28A745; --danger: #DC3545; --warning: #F5A623; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.5; color: #333; background: #f5f5f5; }
         
         /* Navbar */
-        .navbar { position: fixed; top: 0; left: 0; right: 0; height: 70px; background: white; display: flex; align-items: center; justify-content: space-between; padding: 0 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); z-index: 1000; }
-        .logo { display: flex; flex-direction: column; line-height: 1.1; }
-        .logo-janus { font-size: 18px; font-weight: 700; color: #003B5C; letter-spacing: 2px; }
-        .logo-henderson { font-size: 12px; font-weight: 500; color: #C9A961; letter-spacing: 1px; }
-        .nav-tabs { display: flex; gap: 5px; overflow-x: auto; }
-        .nav-tab { font-size: 13px; font-weight: 500; color: #2D2D2D; padding: 10px 15px; border: none; border-radius: 6px; background: transparent; cursor: pointer; white-space: nowrap; transition: all 0.2s; }
-        .nav-tab:hover { background: rgba(0,59,92,0.08); color: #003B5C; }
-        .nav-tab.active { background: #003B5C; color: white; }
+        .navbar { position: fixed; top: 0; left: 0; right: 0; height: 60px; background: white; display: flex; align-items: center; justify-content: space-between; padding: 0 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); z-index: 1000; }
+        .logo { display: flex; flex-direction: column; line-height: 1; }
+        .logo-janus { font-size: 16px; font-weight: 700; color: var(--primary); letter-spacing: 1px; }
+        .logo-henderson { font-size: 10px; font-weight: 500; color: var(--gold); letter-spacing: 1px; }
+        .nav-tabs { display: flex; gap: 4px; overflow-x: auto; }
+        .nav-tab { font-size: 12px; font-weight: 500; color: #333; padding: 8px 12px; border: none; border-radius: 4px; background: transparent; cursor: pointer; white-space: nowrap; }
+        .nav-tab:hover { background: #e8f4fc; color: var(--primary); }
+        .nav-tab.active { background: var(--primary); color: white; }
         
-        /* Main Content */
-        .main-content { padding-top: 70px; }
-        .tab-panel { display: none; padding: 40px 20px; max-width: 1200px; margin: 0 auto; }
-        .tab-panel.active { display: block; }
+        /* Content */
+        .main-content { padding-top: 60px; }
+        .tab-panel { display: none; padding: 20px; max-width: 1200px; margin: 0 auto; }
+        .tab-panel.active { display: block; animation: fadeIn 0.3s ease; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         
         /* Hero */
-        .hero { background: linear-gradient(135deg, #003B5C 0%, #001a2e 100%); padding: 60px 20px; color: white; text-align: center; }
-        .hero-badge { display: inline-block; background: #C9A961; color: #003B5C; font-size: 12px; font-weight: 600; padding: 6px 16px; border-radius: 20px; margin-bottom: 20px; }
-        .hero-title { font-size: 42px; font-weight: 700; margin-bottom: 15px; }
-        .hero-subtitle { font-size: 18px; opacity: 0.8; max-width: 600px; margin: 0 auto 40px; }
-        .hero-stats { display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; }
-        .stat-card { background: rgba(255,255,255,0.1); border-radius: 12px; padding: 25px 40px; }
-        .stat-card.highlight { background: rgba(201,169,97,0.3); border: 2px solid #C9A961; }
-        .stat-value { font-size: 36px; font-weight: 700; color: #C9A961; }
-        .stat-label { font-size: 14px; opacity: 0.7; }
+        .hero { background: linear-gradient(135deg, var(--primary) 0%, #001a2e 100%); padding: 40px 20px; color: white; text-align: center; }
+        .hero-badge { display: inline-block; background: var(--gold); color: var(--primary); font-size: 11px; font-weight: 600; padding: 5px 12px; border-radius: 15px; margin-bottom: 15px; }
+        .hero-title { font-size: 32px; font-weight: 700; margin-bottom: 10px; }
+        .hero-subtitle { font-size: 15px; opacity: 0.8; max-width: 500px; margin: 0 auto 30px; }
+        .hero-stats { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; }
+        .stat-card { background: rgba(255,255,255,0.1); border-radius: 10px; padding: 20px 30px; min-width: 120px; }
+        .stat-card.highlight { background: rgba(201,169,97,0.3); border: 2px solid var(--gold); }
+        .stat-value { font-size: 28px; font-weight: 700; color: var(--gold); }
+        .stat-label { font-size: 12px; opacity: 0.7; margin-top: 5px; }
         
         /* Cards */
-        .card { background: white; border-radius: 16px; padding: 30px; margin-bottom: 30px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
-        .card h2 { color: #003B5C; margin-bottom: 20px; font-size: 24px; }
+        .card { background: white; border-radius: 12px; padding: 25px; margin-bottom: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.08); }
+        .card h2 { color: var(--primary); margin-bottom: 20px; font-size: 22px; }
+        .card h3 { color: var(--primary); margin-bottom: 15px; font-size: 18px; }
         
-        /* Deal Comparison */
-        .deal-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-bottom: 40px; }
-        .deal-card { background: white; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
-        .deal-header { padding: 20px; display: flex; justify-content: space-between; align-items: center; }
-        .deal-card.trian .deal-header { background: #f8f9fa; }
-        .deal-card.victory .deal-header { background: linear-gradient(135deg, #003B5C, #002a44); color: white; }
-        .deal-price { font-size: 48px; font-weight: 700; color: #003B5C; padding: 30px; text-align: center; }
-        .deal-card.victory .deal-price { color: #C9A961; }
-        .deal-details { padding: 0 30px 30px; }
-        .deal-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #eee; font-size: 14px; }
+        /* Grid */
+        .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+        .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; }
         
-        /* Insights Grid */
-        .insights-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-        .insight-card { background: white; border-radius: 16px; padding: 25px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); border-top: 4px solid #0077C8; position: relative; }
-        .insight-card .number { position: absolute; top: 15px; right: 15px; font-size: 48px; font-weight: 700; color: #eee; }
-        .insight-card .icon { font-size: 32px; margin-bottom: 15px; }
-        .insight-card h3 { font-size: 18px; margin-bottom: 15px; color: #003B5C; }
-        .insight-highlight { background: #e3f2fd; border-radius: 8px; padding: 15px; margin-bottom: 15px; font-size: 14px; color: #1565c0; font-weight: 600; }
-        .insight-card p { font-size: 13px; color: #666; }
+        /* Deal Cards */
+        .deal-card { background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,0.08); }
+        .deal-header { padding: 15px 20px; background: #f8f9fa; display: flex; justify-content: space-between; align-items: center; }
+        .deal-header h3 { margin: 0; font-size: 16px; color: var(--primary); }
+        .deal-header span { font-size: 11px; color: #666; }
+        .deal-price { font-size: 36px; font-weight: 700; color: var(--primary); padding: 25px; text-align: center; }
+        .deal-details { padding: 0 20px 20px; }
+        .deal-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #eee; font-size: 13px; }
+        .deal-row:last-child { border-bottom: none; }
         
-        /* Calculator */
-        .calc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
-        .input-group { margin-bottom: 20px; }
-        .input-group label { display: block; font-size: 14px; font-weight: 600; margin-bottom: 10px; }
-        .slider-wrap { display: flex; align-items: center; gap: 15px; }
-        .slider { flex: 1; -webkit-appearance: none; height: 8px; border-radius: 4px; background: #ddd; }
-        .slider::-webkit-slider-thumb { -webkit-appearance: none; width: 24px; height: 24px; border-radius: 50%; background: #DC3545; cursor: pointer; }
-        .slider-value { min-width: 50px; font-weight: 700; color: #DC3545; }
-        .risk-card { padding: 20px; border-radius: 12px; text-align: center; margin-bottom: 15px; }
-        .risk-card.high { background: #fff3cd; border: 2px solid #ffc107; }
-        .risk-card.medium { background: #d4edda; border: 2px solid #28a745; }
-        .risk-card.critical { background: #f8d7da; border: 2px solid #dc3545; }
-        .risk-card .label { font-size: 12px; color: #666; margin-bottom: 5px; }
-        .risk-card .value { font-size: 28px; font-weight: 700; }
+        /* Inputs */
+        .input-group { margin-bottom: 15px; }
+        .input-group label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 8px; color: #333; }
+        .input-wrap { display: flex; align-items: center; gap: 12px; }
+        .slider { flex: 1; -webkit-appearance: none; height: 6px; border-radius: 3px; background: #ddd; outline: none; }
+        .slider::-webkit-slider-thumb { -webkit-appearance: none; width: 20px; height: 20px; border-radius: 50%; background: var(--danger); cursor: pointer; }
+        .input-value { min-width: 60px; font-weight: 700; color: var(--danger); font-size: 14px; text-align: right; }
+        .number-input { width: 80px; padding: 8px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px; text-align: right; }
         
-        /* Recommendation */
-        .rec-card { background: linear-gradient(135deg, #003B5C, #0077C8); border-radius: 20px; overflow: hidden; color: white; margin-bottom: 40px; }
-        .rec-header { padding: 30px; background: rgba(0,0,0,0.2); display: flex; align-items: center; gap: 15px; }
-        .rec-header .icon { font-size: 40px; }
-        .rec-header h2 { margin: 0; color: white; }
-        .rec-statement { padding: 30px; font-size: 22px; line-height: 1.6; background: rgba(255,255,255,0.1); }
-        .rec-statement strong { color: #C9A961; }
-        .rec-rationale { padding: 30px; }
-        .rec-rationale h4 { margin-bottom: 15px; }
-        .rec-rationale ul { list-style: none; }
-        .rec-rationale li { padding: 10px 0; padding-left: 25px; position: relative; }
-        .rec-rationale li::before { content: '✓'; position: absolute; left: 0; color: #C9A961; font-weight: bold; }
+        /* Results */
+        .result-card { padding: 15px; border-radius: 10px; text-align: center; margin-bottom: 12px; }
+        .result-card.warning { background: #fff3cd; border: 1px solid var(--warning); }
+        .result-card.success { background: #d4edda; border: 1px solid var(--success); }
+        .result-card.danger { background: #f8d7da; border: 1px solid var(--danger); }
+        .result-card .label { font-size: 11px; color: #666; margin-bottom: 5px; text-transform: uppercase; }
+        .result-card .value { font-size: 24px; font-weight: 700; }
+        
+        /* Highlight Box */
+        .highlight-box { background: #e8f4fc; border-radius: 8px; padding: 15px; margin-bottom: 15px; font-size: 14px; color: var(--primary); font-weight: 600; }
         
         /* Tables */
-        table { width: 100%; border-collapse: collapse; background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
-        th { background: #003B5C; color: white; padding: 16px; text-align: left; font-weight: 600; }
-        td { padding: 16px; border-bottom: 1px solid #eee; }
-        tr:hover { background: rgba(0,59,92,0.05); }
-        .avoid { color: #dc3545; font-weight: 600; }
-        .optimal { color: #28a745; font-weight: 600; }
-        .good { color: #0077C8; font-weight: 600; }
+        table { width: 100%; border-collapse: collapse; background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,0.08); font-size: 13px; }
+        th { background: var(--primary); color: white; padding: 14px; text-align: left; font-weight: 600; }
+        td { padding: 14px; border-bottom: 1px solid #eee; }
+        .avoid { color: var(--danger); font-weight: 600; }
+        .optimal { color: var(--success); font-weight: 600; }
+        .good { color: var(--secondary); font-weight: 600; }
+        
+        /* Chart Container */
+        .chart-container { height: 300px; margin: 20px 0; }
+        
+        /* Recommendation Card */
+        .rec-card { background: linear-gradient(135deg, var(--primary), var(--secondary)); border-radius: 16px; overflow: hidden; color: white; margin-bottom: 25px; }
+        .rec-header { padding: 25px; background: rgba(0,0,0,0.2); display: flex; align-items: center; gap: 12px; }
+        .rec-header .icon { font-size: 32px; }
+        .rec-header h2 { margin: 0; font-size: 20px; }
+        .rec-statement { padding: 25px; font-size: 18px; line-height: 1.6; background: rgba(255,255,255,0.1); }
+        .rec-statement strong { color: var(--gold); }
+        .rec-rationale { padding: 25px; }
+        .rec-rationale h4 { margin-bottom: 12px; font-size: 14px; }
+        .rec-rationale ul { list-style: none; }
+        .rec-rationale li { padding: 8px 0; padding-left: 22px; position: relative; font-size: 13px; }
+        .rec-rationale li::before { content: '✓'; position: absolute; left: 0; color: var(--gold); font-weight: bold; }
+        
+        /* Insight Cards */
+        .insight-card { background: white; border-radius: 12px; padding: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.08); border-top: 3px solid var(--secondary); }
+        .insight-card .icon { font-size: 28px; margin-bottom: 10px; }
+        .insight-card h3 { font-size: 16px; margin-bottom: 10px; color: var(--primary); }
+        .insight-highlight { background: #e8f4fc; border-radius: 6px; padding: 12px; margin-bottom: 12px; font-size: 13px; color: var(--primary); font-weight: 600; }
+        .insight-card p { font-size: 12px; color: #666; line-height: 1.5; }
+        
+        /* Formula Box */
+        .formula-box { background: #f8f9fa; border-radius: 8px; padding: 15px; font-family: monospace; font-size: 12px; margin: 15px 0; }
         
         /* Responsive */
-        @media (max-width: 768px) {
-            .hero-title { font-size: 28px; }
+        @media (max-width: 600px) {
+            .hero-title { font-size: 24px; }
             .hero-stats { flex-direction: column; align-items: center; }
-            .deal-grid, .calc-grid, .insights-grid { grid-template-columns: 1fr; }
-            .nav-tabs { overflow-x: scroll; }
+            .nav-tab { font-size: 11px; padding: 6px 8px; }
         }
     </style>
 </head>
@@ -112,11 +126,11 @@
         </div>
         <div class="nav-tabs">
             <button class="nav-tab active" onclick="showTab('dashboard')">Dashboard</button>
-            <button class="nav-tab" onclick="showTab('pathways')">Pathways</button>
-            <button class="nav-tab" onclick="showTab('overlap')">Client Overlap</button>
-            <button class="nav-tab" onclick="showTab('realoptions')">Real Options</button>
-            <button class="nav-tab" onclick="showTab('risk')">Risk Analysis</button>
-            <button class="nav-tab" onclick="showTab('insights')">Key Insights</button>
+            <button class="nav-tab" onclick="showTab('calculator')">Calculator</button>
+            <button class="nav-tab" onclick="showTab('scenarios')">Scenarios</button>
+            <button class="nav-tab" onclick="showTab('overlap')">Overlap</button>
+            <button class="nav-tab" onclick="showTab('charts')">Charts</button>
+            <button class="nav-tab" onclick="showTab('insights')">Insights</button>
         </div>
     </nav>
 
@@ -126,18 +140,18 @@
             <div class="hero">
                 <div class="hero-badge">Strategic Decision Support Tool</div>
                 <h1 class="hero-title">Janus Henderson M&A<br>Real Options Analysis</h1>
-                <p class="hero-subtitle">Quantitative framework for evaluating strategic alternatives in competing acquisition proposals</p>
+                <p class="hero-subtitle">Quantitative framework for evaluating competing acquisition proposals</p>
                 <div class="hero-stats">
-                    <div class="stat-card"><div class="stat-value">$52.21</div><div class="stat-label">JHG Current</div></div>
+                    <div class="stat-card"><div class="stat-value" id="dashPrice">$52.21</div><div class="stat-label">JHG Current</div></div>
                     <div class="stat-card"><div class="stat-value">$49.00</div><div class="stat-label">Trian Offer</div></div>
                     <div class="stat-card"><div class="stat-value">$57.04</div><div class="stat-label">Victory Offer</div></div>
-                    <div class="stat-card highlight"><div class="stat-value">$3.42</div><div class="stat-label">Option Value</div></div>
+                    <div class="stat-card highlight"><div class="stat-value" id="dashOption">$3.42</div><div class="stat-label">Option Value</div></div>
                 </div>
             </div>
             
-            <div class="tab-panel active" style="padding: 40px 20px;">
-                <div class="deal-grid">
-                    <div class="deal-card trian">
+            <div class="tab-panel active" style="padding: 30px 20px;">
+                <div class="grid-2">
+                    <div class="deal-card">
                         <div class="deal-header"><h3>Trian / General Catalyst</h3><span>Take-Private</span></div>
                         <div class="deal-price">$49.00</div>
                         <div class="deal-details">
@@ -147,9 +161,9 @@
                             <div class="deal-row"><span>AI Savings:</span><span><strong>$450-720M/year</strong></span></div>
                         </div>
                     </div>
-                    <div class="deal-card victory">
-                        <div class="deal-header"><h3>Victory Capital</h3><span>Mega-Merger</span></div>
-                        <div class="deal-price">$57.04</div>
+                    <div class="deal-card">
+                        <div class="deal-header" style="background: var(--primary);"><h3 style="color:white;">Victory Capital</h3><span style="color:var(--gold);">Mega-Merger</span></div>
+                        <div class="deal-price" style="color:var(--gold);">$57.04</div>
                         <div class="deal-details">
                             <div class="deal-row"><span>Structure:</span><span>$30 Cash + 0.35 VCTR</span></div>
                             <div class="deal-row"><span>Equity Value:</span><span>$8.6B</span></div>
@@ -161,204 +175,321 @@
                 
                 <div class="card">
                     <h2>Quick Analysis</h2>
-                    <div class="deal-grid">
+                    <div class="grid-3">
                         <div class="card" style="text-align: center;">
-                            <h4>Option to Wait</h4>
-                            <div style="font-size: 36px; font-weight: 700; color: #003B5C;">$3.42</div>
-                            <p>Value of deferring decision</p>
+                            <h3>Option to Wait</h3>
+                            <div style="font-size: 32px; font-weight: 700; color: var(--primary);" id="quickWait">$3.42</div>
+                            <p style="font-size: 12px; color: #666;">Value of deferring decision</p>
                         </div>
                         <div class="card" style="text-align: center;">
-                            <h4>Expected Value</h4>
-                            <div style="font-size: 36px; font-weight: 700; color: #003B5C;">$52.83</div>
-                            <p>Probability-weighted outcome</p>
+                            <h3>Expected Value</h3>
+                            <div style="font-size: 32px; font-weight: 700; color: var(--primary);" id="quickEV">$52.83</div>
+                            <p style="font-size: 12px; color: #666;">Probability-weighted outcome</p>
                         </div>
-                        <div class="card" style="text-align: center; background: linear-gradient(135deg, #003B5C, #0077C8); color: white;">
-                            <h4 style="color: white;">Recommendation</h4>
-                            <div style="font-size: 36px; font-weight: 700; color: #C9A961;">WAIT</div>
-                            <p style="color: rgba(255,255,255,0.8);">Engage Victory for improved terms</p>
+                        <div class="card" style="text-align: center; background: linear-gradient(135deg, var(--primary), var(--secondary)); color: white;">
+                            <h3 style="color: white;">Recommendation</h3>
+                            <div style="font-size: 32px; font-weight: 700; color: var(--gold);">WAIT</div>
+                            <p style="font-size: 12px; color: rgba(255,255,255,0.8);">Engage Victory for improved terms</p>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- PATHWAYS -->
-        <section id="pathways" class="tab-panel">
+        <!-- CALCULATOR -->
+        <section id="calculator" class="tab-panel">
             <div class="card">
-                <h2>🚀 Path A: Trian Take-Private (AI Transformation)</h2>
-                <div class="deal-grid">
+                <h2>Real Options Calculator</h2>
+                <div class="grid-2">
                     <div>
-                        <div class="insight-highlight">$450-720M annual savings potential (25-40% cost reduction)</div>
-                        <p><strong>18-Month Roadmap:</strong></p>
-                        <ul style="margin-left: 20px; margin-bottom: 20px;">
-                            <li>Phase 1 (Months 1-6): Deploy AI document processing - $150M savings</li>
-                            <li>Phase 2 (Months 7-12): Full AI compliance monitoring - $300M savings</li>
-                            <li>Phase 3 (Months 13-18): AI-driven alpha strategies - $450-720M savings</li>
-                        </ul>
+                        <h3>Input Parameters</h3>
+                        <div class="input-group">
+                            <label>Current JHG Stock Price ($)</label>
+                            <div class="input-wrap">
+                                <input type="range" class="slider" id="calcPrice" min="40" max="65" value="52.21" step="0.01" oninput="updateCalculator()">
+                                <span class="input-value" id="calcPriceVal">$52.21</span>
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <label>Trian Offer Price ($)</label>
+                            <div class="input-wrap">
+                                <input type="range" class="slider" id="calcTrian" min="45" max="55" value="49.00" step="0.01" oninput="updateCalculator()">
+                                <span class="input-value" id="calcTrianVal">$49.00</span>
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <label>Victory Offer Value ($)</label>
+                            <div class="input-wrap">
+                                <input type="range" class="slider" id="calcVictory" min="50" max="65" value="57.04" step="0.01" oninput="updateCalculator()">
+                                <span class="input-value" id="calcVictoryVal">$57.04</span>
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <label>Volatility (%)</label>
+                            <div class="input-wrap">
+                                <input type="range" class="slider" id="calcVol" min="10" max="50" value="25" step="0.1" oninput="updateCalculator()">
+                                <span class="input-value" id="calcVolVal">25%</span>
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <label>Time to Decision (months)</label>
+                            <div class="input-wrap">
+                                <input type="range" class="slider" id="calcTime" min="1" max="12" value="3" step="0.5" oninput="updateCalculator()">
+                                <span class="input-value" id="calcTimeVal">3</span>
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <label>Risk-Free Rate (%)</label>
+                            <div class="input-wrap">
+                                <input type="range" class="slider" id="calcRate" min="2" max="8" value="4.5" step="0.1" oninput="updateCalculator()">
+                                <span class="input-value" id="calcRateVal">4.5%</span>
+                            </div>
+                        </div>
                     </div>
                     <div>
-                        <div class="insight-highlight">$500M annual synergy target</div>
-                        <p><strong>Breakdown:</strong></p>
-                        <div class="deal-row"><span>Technology Consolidation:</span><span>$150M</span></div>
-                        <div class="deal-row"><span>Middle/Back Office:</span><span>$180M</span></div>
-                        <div class="deal-row"><span>Vendor Consolidation:</span><span>$100M</span></div>
-                        <div class="deal-row"><span>Real Estate:</span><span>$40M</span></div>
-                        <div class="deal-row"><span>Other:</span><span>$30M</span></div>
+                        <h3>Calculated Results</h3>
+                        <div class="result-card success">
+                            <div class="label">Option to Wait</div>
+                            <div class="value" id="resWait">$3.42</div>
+                        </div>
+                        <div class="result-card warning">
+                            <div class="label">Expected Value</div>
+                            <div class="value" id="resEV">$52.83</div>
+                        </div>
+                        <div class="result-card success">
+                            <div class="label">Black-Scholes Value</div>
+                            <div class="value" id="resBS">$3.38</div>
+                        </div>
+                        <div class="formula-box">
+                            <strong>Binomial Parameters:</strong><br>
+                            u = <span id="paramU">1.133</span> (up factor)<br>
+                            d = <span id="paramD">0.883</span> (down factor)<br>
+                            p = <span id="paramP">0.512</span> (risk-neutral prob)
+                        </div>
                     </div>
                 </div>
             </div>
             
             <div class="card">
-                <h2>Side-by-Side Comparison</h2>
+                <h2>Scenario Probabilities</h2>
+                <div class="grid-2">
+                    <div>
+                        <div class="input-group">
+                            <label>P(Victory Success)</label>
+                            <div class="input-wrap">
+                                <input type="range" class="slider" id="probVictory" min="0" max="100" value="40" oninput="updateCalculator()">
+                                <span class="input-value" id="probVictoryVal">40%</span>
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <label>P(Trian Enhances)</label>
+                            <div class="input-wrap">
+                                <input type="range" class="slider" id="probEnhance" min="0" max="100" value="20" oninput="updateCalculator()">
+                                <span class="input-value" id="probEnhanceVal">20%</span>
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <label>P(Deal Collapse)</label>
+                            <div class="input-wrap">
+                                <input type="range" class="slider" id="probCollapse" min="0" max="100" value="15" oninput="updateCalculator()">
+                                <span class="input-value" id="probCollapseVal">15%</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="result-card success">
+                            <div class="label">Weighted Expected Value</div>
+                            <div class="value" id="resWeighted">$52.83</div>
+                        </div>
+                        <div class="result-card warning">
+                            <div class="label">vs. Immediate Trian</div>
+                            <div class="value" id="resDiff">+$3.83</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SCENARIOS -->
+        <section id="scenarios" class="tab-panel">
+            <div class="card">
+                <h2>Strategic Scenario Outcomes</h2>
                 <table>
-                    <tr><th>Dimension</th><th>Trian Take-Private</th><th>Victory Mega-Merger</th></tr>
-                    <tr><td>Offer Value</td><td>$49.00 (all-cash)</td><td>$57.04 ($30 cash + 0.35 VCTR)</td></tr>
-                    <tr><td>Certainty</td><td>✅ High - Cash, committed financing</td><td>⚠️ Medium - 47% stock component</td></tr>
-                    <tr><td>Cost Savings</td><td>$450-720M/year (AI-driven)</td><td>$500M/year (integration synergies)</td></tr>
-                    <tr><td>Ownership</td><td>0% - Full exit</td><td>38% - Participate in upside</td></tr>
-                    <tr><td>Client Consent</td><td>80% threshold (higher hurdle)</td><td>75% threshold (lower hurdle)</td></tr>
-                    <tr><td>Client Risk</td><td>🟢 Low - Continuity, no overlap</td><td>🔴 Medium - 15-25% overlap risk</td></tr>
+                    <thead>
+                        <tr><th>Scenario</th><th>Probability</th><th>Value/Share</th><th>Key Drivers</th><th>Recommendation</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td><strong>Accept Trian Now</strong></td><td>100%</td><td>$49.00</td><td>Certainty, speed to close</td><td class="avoid">AVOID - Suboptimal</td></tr>
+                        <tr style="background: #e8f5e9;"><td><strong>Wait for Victory</strong></td><td>40%</td><td>$57.04</td><td>Scale synergies, 38% ownership</td><td class="optimal">PURSUE - Optimal</td></tr>
+                        <tr><td><strong>Wait + Trian Enhances</strong></td><td>20%</td><td>$52-54</td><td>Competitive pressure, AI value</td><td class="good">ACCEPT - Good outcome</td></tr>
+                        <tr><td><strong>Deal Collapse</strong></td><td>15%</td><td>$44-46</td><td>Client consent failure, Trian blocks</td><td class="avoid">MITIGATE - Downside</td></tr>
+                        <tr style="background: #fff8e1;"><td><strong>Compound Option</strong></td><td>Weighted</td><td>$54.85-56.20</td><td>Risk-adjusted with flexibility</td><td class="optimal">OPTIMAL - Target</td></tr>
+                    </tbody>
                 </table>
+            </div>
+            
+            <div class="card">
+                <h2>Decision Framework</h2>
+                <div class="grid-2">
+                    <div>
+                        <h3>Key Decision Criteria</h3>
+                        <div class="highlight-box">Value Maximization: Victory's $57.04 > Trian's $49.00</div>
+                        <div class="highlight-box">Certainty: Trian (cash) > Victory (47% stock)</div>
+                        <div class="highlight-box">Upside: Compound option ($55.42) > Immediate ($49.00)</div>
+                        <div class="highlight-box">Risk: Trian (AI execution) vs Victory (integration)</div>
+                    </div>
+                    <div>
+                        <h3>Board Considerations</h3>
+                        <ul style="margin-left: 20px; font-size: 13px; color: #666;">
+                            <li>Fiduciary duty to maximize shareholder value</li>
+                            <li>Fair process for all bidders</li>
+                            <li>Timeline pressure (Trian vote Q2 2026)</li>
+                            <li>Stakeholder interests (employees, clients, PMs)</li>
+                            <li>Long-term competitive positioning</li>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </section>
 
         <!-- OVERLAP -->
         <section id="overlap" class="tab-panel">
             <div class="card">
-                <h2>Interactive Overlap Risk Calculator</h2>
-                <div class="calc-grid">
+                <h2>Client Overlap Risk Calculator</h2>
+                <div class="grid-2">
                     <div>
+                        <h3>Scenario Parameters</h3>
                         <div class="input-group">
                             <label>Institutional Client Overlap (%)</label>
-                            <div class="slider-wrap">
-                                <input type="range" id="instOverlap" class="slider" min="0" max="50" value="25" oninput="updateOverlap()">
-                                <span class="slider-value" id="instVal">25%</span>
+                            <div class="input-wrap">
+                                <input type="range" class="slider" id="instOverlap" min="0" max="50" value="25" oninput="updateOverlap()">
+                                <span class="input-value" id="instOverlapVal">25%</span>
                             </div>
                         </div>
                         <div class="input-group">
                             <label>Intermediary Channel Overlap (%)</label>
-                            <div class="slider-wrap">
-                                <input type="range" id="intOverlap" class="slider" min="0" max="50" value="20" oninput="updateOverlap()">
-                                <span class="slider-value" id="intVal">20%</span>
+                            <div class="input-wrap">
+                                <input type="range" class="slider" id="intOverlap" min="0" max="50" value="20" oninput="updateOverlap()">
+                                <span class="input-value" id="intOverlapVal">20%</span>
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <label>Insurance Client Overlap (%)</label>
+                            <div class="input-wrap">
+                                <input type="range" class="slider" id="insOverlap" min="0" max="50" value="30" oninput="updateOverlap()">
+                                <span class="input-value" id="insOverlapVal">30%</span>
                             </div>
                         </div>
                         <div class="input-group">
                             <label>Expected Retention Rate (%)</label>
-                            <div class="slider-wrap">
-                                <input type="range" id="retention" class="slider" min="50" max="100" value="85" oninput="updateOverlap()">
-                                <span class="slider-value" id="retVal">85%</span>
+                            <div class="input-wrap">
+                                <input type="range" class="slider" id="retention" min="50" max="100" value="85" oninput="updateOverlap()">
+                                <span class="input-value" id="retentionVal">85%</span>
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <label>Time to Close (months)</label>
+                            <div class="input-wrap">
+                                <input type="range" class="slider" id="timeToClose" min="6" max="24" value="12" oninput="updateOverlap()">
+                                <span class="input-value" id="timeToCloseVal">12</span>
                             </div>
                         </div>
                     </div>
                     <div>
-                        <div class="risk-card high">
+                        <h3>Risk Assessment Results</h3>
+                        <div class="result-card warning">
                             <div class="label">Revenue at Risk</div>
                             <div class="value" id="revRisk">$186M</div>
                         </div>
-                        <div class="risk-card medium">
+                        <div class="result-card success">
                             <div class="label">AUM at Risk</div>
                             <div class="value" id="aumRisk">$45B</div>
                         </div>
-                        <div class="risk-card critical">
+                        <div class="result-card danger">
                             <div class="label">Break-Even Synergy</div>
                             <div class="value" id="breakEven">$558M</div>
+                        </div>
+                        <div class="result-card warning">
+                            <div class="label">NPV Impact (5yr)</div>
+                            <div class="value" id="npvImpact">-$1.2B</div>
                         </div>
                     </div>
                 </div>
             </div>
             
             <div class="card">
-                <h2>🛡️ Guardian Life Mandate: Critical Asset</h2>
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px;">
+                <h2>Client Segment Analysis</h2>
+                <div class="grid-3">
+                    <div class="insight-card" style="border-top-color: #dc3545;">
+                        <div class="icon">🏢</div>
+                        <h3>Institutional</h3>
+                        <div class="insight-highlight">$153B AUM (31%)</div>
+                        <p><strong>HIGH OVERLAP RISK</strong></p>
+                        <p style="margin-top: 10px;">Pension funds, insurance accounts, corporate treasuries. Consultant-driven decisions.</p>
+                    </div>
+                    <div class="insight-card" style="border-top-color: #F5A623;">
+                        <div class="icon">🤝</div>
+                        <h3>Intermediary</h3>
+                        <div class="insight-highlight">$241B AUM (49%)</div>
+                        <p><strong>MEDIUM OVERLAP RISK</strong></p>
+                        <p style="margin-top: 10px;">Wirehouse advisors, RIAs, bank trust departments. Platform competition.</p>
+                    </div>
+                    <div class="insight-card" style="border-top-color: #28A745;">
+                        <div class="icon">👤</div>
+                        <h3>Self-Directed</h3>
+                        <div class="insight-highlight">$99B AUM (20%)</div>
+                        <p><strong>LOW OVERLAP RISK</strong></p>
+                        <p style="margin-top: 10px;">Direct retail investors, retirement plans. Brand loyalty varies.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h2>Guardian Life Mandate: Critical Asset</h2>
+                <div class="grid-2">
                     <div>
-                        <div style="font-size: 48px; font-weight: 700; color: #003B5C;">$46.5B</div>
-                        <p>Strategic mandate won in Q3 2025</p>
+                        <div style="font-size: 48px; font-weight: 700; color: var(--primary);">$46.5B</div>
+                        <p style="color: #666;">Strategic mandate won in Q3 2025</p>
                         <div class="deal-row"><span>Client Type:</span><span>Insurance General Account</span></div>
                         <div class="deal-row"><span>Strategy:</span><span>Investment-Grade Fixed Income</span></div>
                         <div class="deal-row"><span>Annual Revenue:</span><span>~$45-50M</span></div>
                     </div>
                     <div>
-                        <h4>⚠️ Retention Risk Factors</h4>
-                        <ul style="margin-left: 20px;">
-                            <li>Insurance clients prefer stability</li>
-                            <li>Integration uncertainty triggers review</li>
-                            <li>Competitive pressure during transition</li>
+                        <h3>⚠️ Retention Risk Factors</h3>
+                        <ul style="margin-left: 20px; font-size: 13px; color: #666;">
+                            <li>Insurance clients prefer stability, long-term relationships</li>
+                            <li>Integration uncertainty may trigger fiduciary review</li>
+                            <li>Competitive pressure during transition period</li>
+                            <li>Performance dependency - any underperformance = immediate review</li>
                         </ul>
+                        <div class="highlight-box" style="margin-top: 15px;">
+                            <strong>Protection Strategy:</strong> Guarantee investment team retention for 24 months, maintain separate account structure
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- REAL OPTIONS -->
-        <section id="realoptions" class="tab-panel">
-            <div class="insights-grid">
-                <div class="card" style="text-align: center;">
-                    <div style="font-size: 40px; margin-bottom: 15px;">⏱️</div>
-                    <h3>Option to Wait</h3>
-                    <p>Defer decision to gather more information</p>
-                    <div style="font-size: 32px; font-weight: 700; color: #28A745;">$3.42</div>
-                </div>
-                <div class="card" style="text-align: center;">
-                    <div style="font-size: 40px; margin-bottom: 15px;">🔄</div>
-                    <h3>Option to Switch</h3>
-                    <p>Right to choose between competing bids</p>
-                    <div style="font-size: 32px; font-weight: 700; color: #28A745;">$4.18</div>
-                </div>
-                <div class="card" style="text-align: center;">
-                    <div style="font-size: 40px; margin-bottom: 15px;">🔀</div>
-                    <h3>Compound Option</h3>
-                    <p>Option on an option (wait → then decide)</p>
-                    <div style="font-size: 32px; font-weight: 700; color: #C9A961;">$5.67</div>
+        <!-- CHARTS -->
+        <section id="charts" class="tab-panel">
+            <div class="card">
+                <h2>Sensitivity Analysis: Option Value vs Volatility</h2>
+                <div class="chart-container">
+                    <canvas id="volChart"></canvas>
                 </div>
             </div>
             
             <div class="card">
-                <h2>Decision Matrix</h2>
-                <table>
-                    <tr><th>Strategy</th><th>Value/Share</th><th>Probability</th><th>Recommendation</th></tr>
-                    <tr><td><strong>Accept Trian Now</strong></td><td>$49.00</td><td>100%</td><td class="avoid">Certain but suboptimal</td></tr>
-                    <tr style="background: #e8f5e9;"><td><strong>Wait for Victory</strong></td><td>$52.83</td><td>40%</td><td class="optimal">✅ Optimal strategy</td></tr>
-                    <tr><td><strong>Wait + Trian Enhances</strong></td><td>$52-54</td><td>20%</td><td class="good">Good outcome</td></tr>
-                    <tr><td><strong>Deal Collapse</strong></td><td>$44-46</td><td>15%</td><td class="avoid">Downside scenario</td></tr>
-                    <tr style="background: #fff8e1;"><td><strong>Compound Option</strong></td><td>$54.85-56.20</td><td>Weighted</td><td class="optimal">🎯 Best risk-adjusted</td></tr>
-                </table>
-            </div>
-        </section>
-
-        <!-- RISK -->
-        <section id="risk" class="tab-panel">
-            <div class="card">
-                <h2>Risk Factor Dashboard</h2>
-                <div class="insights-grid">
-                    <div class="card" style="border-top: 4px solid #dc3545;">
-                        <h4>👥 Client Consent Failure</h4>
-                        <p><strong>Probability: 15-20%</strong></p>
-                        <p><strong>Impact: Deal Collapse</strong></p>
-                        <p style="font-size: 13px; color: #666;">Trian: 80% threshold | Victory: 75% threshold</p>
-                    </div>
-                    <div class="card" style="border-top: 4px solid #dc3545;">
-                        <h4>🗳️ Trian Blocking Position</h4>
-                        <p><strong>Probability: 25-30%</strong></p>
-                        <p><strong>Impact: Victory Path Blocked</strong></p>
-                        <p style="font-size: 13px; color: #666;">20.6% ownership + Jersey law = 87.5% needed without Trian</p>
-                    </div>
-                    <div class="card" style="border-top: 4px solid #28a745;">
-                        <h4>⚖️ Regulatory/HSR Review</h4>
-                        <p><strong>Probability: 5%</strong></p>
-                        <p><strong>Impact: Delay</strong></p>
-                        <p style="font-size: 13px; color: #666;">Combined ~$807B AUM still &lt; 5% market share</p>
-                    </div>
+                <h2>Scenario Probability Distribution</h2>
+                <div class="chart-container">
+                    <canvas id="probChart"></canvas>
                 </div>
             </div>
             
-            <div class="card" style="text-align: center;">
-                <h2>Deal Break Probability</h2>
-                <div style="font-size: 72px; font-weight: 700; color: #dc3545;">42.3%</div>
-                <p style="font-family: monospace; color: #666;">1 - ∏(1 - pᵢ) for independent events</p>
-                <div style="display: flex; justify-content: center; gap: 30px; margin-top: 20px;">
-                    <div><span style="display: inline-block; width: 20px; height: 20px; background: #003B5C; border-radius: 4px;"></span> Trian Success: <strong>35%</strong></div>
-                    <div><span style="display: inline-block; width: 20px; height: 20px; background: #C9A961; border-radius: 4px;"></span> Victory Success: <strong>23%</strong></div>
-                    <div><span style="display: inline-block; width: 20px; height: 20px; background: #dc3545; border-radius: 4px;"></span> Deal Collapse: <strong>42%</strong></div>
+            <div class="card">
+                <h2>Payoff Diagram</h2>
+                <div class="chart-container">
+                    <canvas id="payoffChart"></canvas>
                 </div>
             </div>
         </section>
@@ -384,88 +515,309 @@
                 </div>
             </div>
             
-            <div class="insights-grid">
-                <div class="insight-card">
-                    <div class="number">01</div>
-                    <div class="icon">🤖</div>
-                    <h3>AI Transformation Value</h3>
-                    <div class="insight-highlight">$450-720M annual savings potential</div>
-                    <p>McKinsey research shows mid-sized asset managers can capture 25-40% of cost base through AI-enabled workflow reimagining.</p>
+            <div class="card">
+                <h2>6 Critical Insights</h2>
+                <div class="grid-3">
+                    <div class="insight-card">
+                        <div class="icon">🤖</div>
+                        <h3>AI Transformation Value</h3>
+                        <div class="insight-highlight">$450-720M annual savings</div>
+                        <p>25-40% cost reduction through AI-enabled workflow reimagining per McKinsey research.</p>
+                    </div>
+                    <div class="insight-card">
+                        <div class="icon">🔄</div>
+                        <h3>Client Overlap Risk</h3>
+                        <div class="insight-highlight">15-25% institutional overlap</div>
+                        <p>Creates $3-5B AUM attrition risk. Historical M&A sees 6-12% revenue attrition.</p>
+                    </div>
+                    <div class="insight-card">
+                        <div class="icon">🗳️</div>
+                        <h3>Trian's Blocking Position</h3>
+                        <div class="insight-highlight">20.6% + Jersey law</div>
+                        <p>Without Trian, Victory needs 87.5% of remaining votes - nearly impossible.</p>
+                    </div>
+                    <div class="insight-card">
+                        <div class="icon">📈</div>
+                        <h3>Victory's Proven Playbook</h3>
+                        <div class="insight-highlight">800% stock appreciation</div>
+                        <p>$97M of $110M synergies achieved ahead of schedule from Amundi US.</p>
+                    </div>
+                    <div class="insight-card">
+                        <div class="icon">🛡️</div>
+                        <h3>Guardian Life Mandate</h3>
+                        <div class="insight-highlight">$46.5B at risk</div>
+                        <p>~$45-50M annual revenue. Insurance clients conservative - may trigger review.</p>
+                    </div>
+                    <div class="insight-card">
+                        <div class="icon">💎</div>
+                        <h3>Real Options Premium</h3>
+                        <div class="insight-highlight">$3.42-6.42/share value</div>
+                        <p>Traditional DCF misses flexibility value. Waiting creates option premium.</p>
+                    </div>
                 </div>
-                <div class="insight-card">
-                    <div class="number">02</div>
-                    <div class="icon">🔄</div>
-                    <h3>Client Overlap Risk</h3>
-                    <div class="insight-highlight">15-25% institutional overlap</div>
-                    <p>Creates $3-5B AUM attrition risk. Historical precedent shows 6% average revenue attrition in asset management M&A.</p>
-                </div>
-                <div class="insight-card">
-                    <div class="number">03</div>
-                    <div class="icon">🗳️</div>
-                    <h3>Trian's Blocking Position</h3>
-                    <div class="insight-highlight">20.6% + Jersey law</div>
-                    <p>Without Trian's vote, Victory would need 87.5% of remaining shareholders to approve - nearly impossible.</p>
-                </div>
-                <div class="insight-card">
-                    <div class="number">04</div>
-                    <div class="icon">📈</div>
-                    <h3>Victory's Proven Playbook</h3>
-                    <div class="insight-highlight">800% stock appreciation</div>
-                    <p>$97M of $110M synergies achieved ahead of schedule from Amundi US integration.</p>
-                </div>
-                <div class="insight-card">
-                    <div class="number">05</div>
-                    <div class="icon">🛡️</div>
-                    <h3>Guardian Life Mandate</h3>
-                    <div class="insight-highlight">$46.5B at risk</div>
-                    <p>~$45-50M annual revenue. Insurance clients are conservative - integration uncertainty may trigger fiduciary review.</p>
-                </div>
-                <div class="insight-card">
-                    <div class="number">06</div>
-                    <div class="icon">💎</div>
-                    <h3>Real Options Premium</h3>
-                    <div class="insight-highlight">$3.42-6.42/share value</div>
-                    <p>Traditional DCF analysis misses the value of flexibility in strategic decision-making.</p>
+            </div>
+            
+            <div class="card">
+                <h2>Action Timeline</h2>
+                <div class="grid-2">
+                    <div class="card" style="border-left: 4px solid #dc3545;">
+                        <h3>NOW - Immediate</h3>
+                        <ul style="margin-left: 20px; font-size: 13px; color: #666;">
+                            <li>Formally reject Trian's $49 offer as inadequate</li>
+                            <li>Engage Victory Capital in exclusive negotiations</li>
+                            <li>Commission independent valuation of VCTR stock</li>
+                            <li>Begin confidential client consent outreach</li>
+                        </ul>
+                    </div>
+                    <div class="card" style="border-left: 4px solid #F5A623;">
+                        <h3>30 Days - Short Term</h3>
+                        <ul style="margin-left: 20px; font-size: 13px; color: #666;">
+                            <li>Negotiate Victory offer enhancement (target $58-62)</li>
+                            <li>Explore three-party solution with Trian</li>
+                            <li>Conduct management presentations to key shareholders</li>
+                            <li>Finalize break fee and protection provisions</li>
+                        </ul>
+                    </div>
+                    <div class="card" style="border-left: 4px solid var(--secondary);">
+                        <h3>90 Days - Medium Term</h3>
+                        <ul style="margin-left: 20px; font-size: 13px; color: #666;">
+                            <li>Execute definitive agreement with winning bidder</li>
+                            <li>Launch formal client consent solicitation</li>
+                            <li>File proxy materials and HSR notification</li>
+                            <li>Implement retention packages for key talent</li>
+                        </ul>
+                    </div>
+                    <div class="card" style="border-left: 4px solid var(--success);">
+                        <h3>12 Months - Long Term</h3>
+                        <ul style="margin-left: 20px; font-size: 13px; color: #666;">
+                            <li>Complete shareholder vote and regulatory approvals</li>
+                            <li>Close transaction</li>
+                            <li>Begin integration (Victory) or transformation (Trian)</li>
+                            <li>Monitor AUM retention and client satisfaction</li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </section>
     </main>
 
     <script>
+        // Tab Navigation
         function showTab(tabId) {
-            // Hide all panels
-            document.querySelectorAll('.tab-panel').forEach(function(panel) {
-                panel.classList.remove('active');
-            });
-            // Show target panel
+            document.querySelectorAll('.tab-panel').forEach(function(p) { p.classList.remove('active'); });
             document.getElementById(tabId).classList.add('active');
-            // Update active tab
-            document.querySelectorAll('.nav-tab').forEach(function(tab) {
-                tab.classList.remove('active');
-            });
+            document.querySelectorAll('.nav-tab').forEach(function(t) { t.classList.remove('active'); });
             event.target.classList.add('active');
-            // Scroll to top
             window.scrollTo(0, 0);
+            if (tabId === 'charts') initCharts();
         }
         
-        function updateOverlap() {
-            var inst = document.getElementById('instOverlap').value;
-            var intv = document.getElementById('intOverlap').value;
-            var ret = document.getElementById('retention').value;
-            
-            document.getElementById('instVal').textContent = inst + '%';
-            document.getElementById('intVal').textContent = intv + '%';
-            document.getElementById('retVal').textContent = ret + '%';
-            
-            var weighted = (inst * 0.31 + intv * 0.49 + 30 * 0.20) / 100;
-            var revRisk = 3.1 * weighted * (1 - ret/100) * 1000;
-            var aumRisk = 493 * weighted * (1 - ret/100);
-            var breakEven = revRisk * 3;
-            
-            document.getElementById('revRisk').textContent = '$' + Math.round(revRisk) + 'M';
-            document.getElementById('aumRisk').textContent = '$' + Math.round(aumRisk) + 'B';
-            document.getElementById('breakEven').textContent = '$' + Math.round(breakEven) + 'M';
+        // Normal CDF
+        function normalCDF(x) {
+            return 0.5 * (1 + Math.erf(x / Math.sqrt(2)));
         }
+        
+        // Black-Scholes
+        function blackScholes(S, K, T, r, sigma) {
+            var d1 = (Math.log(S / K) + (r + 0.5 * sigma * sigma) * T) / (sigma * Math.sqrt(T));
+            var d2 = d1 - sigma * Math.sqrt(T);
+            return S * normalCDF(d1) - K * Math.exp(-r * T) * normalCDF(d2);
+        }
+        
+        // Binomial Option
+        function binomialOption(S, K, T, r, sigma, steps) {
+            var dt = T / steps;
+            var u = Math.exp(sigma * Math.sqrt(dt));
+            var d = 1 / u;
+            var p = (Math.exp(r * dt) - d) / (u - d);
+            var discount = Math.exp(-r * dt);
+            
+            var prices = [];
+            var values = [];
+            
+            for (var i = 0; i <= steps; i++) {
+                prices[i] = [];
+                values[i] = [];
+                for (var j = 0; j <= i; j++) {
+                    prices[i][j] = S * Math.pow(u, j) * Math.pow(d, i - j);
+                }
+            }
+            
+            for (var j = 0; j <= steps; j++) {
+                values[steps][j] = Math.max(0, prices[steps][j] - K);
+            }
+            
+            for (var i = steps - 1; i >= 0; i--) {
+                for (var j = 0; j <= i; j++) {
+                    var hold = discount * (p * values[i+1][j+1] + (1-p) * values[i+1][j]);
+                    var exercise = Math.max(0, prices[i][j] - K);
+                    values[i][j] = Math.max(hold, exercise);
+                }
+            }
+            
+            return { value: values[0][0], u: u, d: d, p: p };
+        }
+        
+        // Update Calculator
+        function updateCalculator() {
+            var S = parseFloat(document.getElementById('calcPrice').value);
+            var K = parseFloat(document.getElementById('calcTrian').value);
+            var victory = parseFloat(document.getElementById('calcVictory').value);
+            var sigma = parseFloat(document.getElementById('calcVol').value) / 100;
+            var timeMonths = parseFloat(document.getElementById('calcTime').value);
+            var r = parseFloat(document.getElementById('calcRate').value) / 100;
+            var T = timeMonths / 12;
+            
+            var probVictory = parseFloat(document.getElementById('probVictory').value) / 100;
+            var probEnhance = parseFloat(document.getElementById('probEnhance').value) / 100;
+            var probCollapse = parseFloat(document.getElementById('probCollapse').value) / 100;
+            var probTrian = 1 - probVictory - probEnhance - probCollapse;
+            
+            // Update display values
+            document.getElementById('calcPriceVal').textContent = '$' + S.toFixed(2);
+            document.getElementById('calcTrianVal').textContent = '$' + K.toFixed(2);
+            document.getElementById('calcVictoryVal').textContent = '$' + victory.toFixed(2);
+            document.getElementById('calcVolVal').textContent = (sigma * 100).toFixed(1) + '%';
+            document.getElementById('calcTimeVal').textContent = timeMonths;
+            document.getElementById('calcRateVal').textContent = (r * 100).toFixed(1) + '%';
+            document.getElementById('probVictoryVal').textContent = (probVictory * 100).toFixed(0) + '%';
+            document.getElementById('probEnhanceVal').textContent = (probEnhance * 100).toFixed(0) + '%';
+            document.getElementById('probCollapseVal').textContent = (probCollapse * 100).toFixed(0) + '%';
+            
+            // Calculate options
+            var binom = binomialOption(S, K, T, r, sigma, 50);
+            var bs = blackScholes(S, K, T, r, sigma);
+            
+            // Weighted expected value
+            var weightedEV = probVictory * victory + probEnhance * 53 + probCollapse * 45 + probTrian * K;
+            var diff = weightedEV - K;
+            
+            // Update results
+            document.getElementById('resWait').textContent = '$' + binom.value.toFixed(2);
+            document.getElementById('resEV').textContent = '$' + weightedEV.toFixed(2);
+            document.getElementById('resBS').textContent = '$' + bs.toFixed(2);
+            document.getElementById('resWeighted').textContent = '$' + weightedEV.toFixed(2);
+            document.getElementById('resDiff').textContent = (diff >= 0 ? '+' : '') + '$' + diff.toFixed(2);
+            
+            document.getElementById('paramU').textContent = binom.u.toFixed(3);
+            document.getElementById('paramD').textContent = binom.d.toFixed(3);
+            document.getElementById('paramP').textContent = binom.p.toFixed(3);
+            
+            // Update dashboard
+            document.getElementById('dashPrice').textContent = '$' + S.toFixed(2);
+            document.getElementById('dashOption').textContent = '$' + binom.value.toFixed(2);
+            document.getElementById('quickWait').textContent = '$' + binom.value.toFixed(2);
+            document.getElementById('quickEV').textContent = '$' + weightedEV.toFixed(2);
+        }
+        
+        // Update Overlap Calculator
+        function updateOverlap() {
+            var inst = parseFloat(document.getElementById('instOverlap').value);
+            var intv = parseFloat(document.getElementById('intOverlap').value);
+            var ins = parseFloat(document.getElementById('insOverlap').value);
+            var ret = parseFloat(document.getElementById('retention').value);
+            var timeToClose = parseFloat(document.getElementById('timeToClose').value);
+            
+            document.getElementById('instOverlapVal').textContent = inst + '%';
+            document.getElementById('intOverlapVal').textContent = intv + '%';
+            document.getElementById('insOverlapVal').textContent = ins + '%';
+            document.getElementById('retentionVal').textContent = ret + '%';
+            document.getElementById('timeToCloseVal').textContent = timeToClose;
+            
+            var totalRevenue = 3.1;
+            var totalAUM = 493;
+            
+            var weightedOverlap = (inst * 0.31 + intv * 0.49 + ins * 0.20) / 100;
+            var timeFactor = 1 + ((timeToClose - 6) / 18) * 0.3;
+            
+            var revenueAtRisk = totalRevenue * weightedOverlap * (1 - ret/100) * timeFactor;
+            var aumAtRisk = totalAUM * weightedOverlap * (1 - ret/100) * timeFactor;
+            var breakEven = revenueAtRisk * 3;
+            var npv = -revenueAtRisk * 3.79;
+            
+            document.getElementById('revRisk').textContent = '$' + Math.round(revenueAtRisk * 1000) + 'M';
+            document.getElementById('aumRisk').textContent = '$' + Math.round(aumAtRisk) + 'B';
+            document.getElementById('breakEven').textContent = '$' + Math.round(breakEven * 1000) + 'M';
+            document.getElementById('npvImpact').textContent = '-$' + Math.abs(npv).toFixed(1) + 'B';
+        }
+        
+        // Initialize Charts
+        var chartsInitialized = false;
+        function initCharts() {
+            if (chartsInitialized) return;
+            chartsInitialized = true;
+            
+            // Volatility Sensitivity Chart
+            var volCtx = document.getElementById('volChart');
+            if (volCtx) {
+                new Chart(volCtx, {
+                    type: 'line',
+                    data: {
+                        labels: ['10%', '15%', '20%', '25%', '30%', '35%', '40%'],
+                        datasets: [{
+                            label: 'Option Value',
+                            data: [1.82, 2.45, 3.01, 3.42, 4.15, 4.89, 5.67],
+                            borderColor: '#28A745',
+                            backgroundColor: 'rgba(40, 167, 69, 0.1)',
+                            fill: true,
+                            tension: 0.4
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: { title: { display: true, text: 'Option Value vs Volatility' } }
+                    }
+                });
+            }
+            
+            // Probability Chart
+            var probCtx = document.getElementById('probChart');
+            if (probCtx) {
+                new Chart(probCtx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['Trian Success (35%)', 'Victory Success (23%)', 'Deal Collapse (42%)'],
+                        datasets: [{
+                            data: [35, 23, 42],
+                            backgroundColor: ['#003B5C', '#C9A961', '#DC3545']
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: { title: { display: true, text: 'Scenario Probability Distribution' } }
+                    }
+                });
+            }
+            
+            // Payoff Chart
+            var payoffCtx = document.getElementById('payoffChart');
+            if (payoffCtx) {
+                new Chart(payoffCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Trian Success', 'Victory Success', 'Deal Collapse'],
+                        datasets: [{
+                            label: 'Return (%)',
+                            data: [-6.1, 9.3, -15.8],
+                            backgroundColor: ['#DC3545', '#28A745', '#DC3545']
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: { title: { display: true, text: 'Merger Arb Payoff Scenarios (from $52.21)' } }
+                    }
+                });
+            }
+        }
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            updateCalculator();
+            updateOverlap();
+        });
     </script>
 </body>
 </html>
