@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <title>Janus Henderson M&A Real Options Analysis</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/spa.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-brand">
+            <div class="logo">
+                <span class="logo-janus">JANUS</span>
+                <span class="logo-henderson">HENDERSON</span>
+            </div>
+        </div>
+        <div class="nav-links">
+            <button class="nav-tab active" data-tab="dashboard">Dashboard</button>
+            <button class="nav-tab" data-tab="pathways">Pathways</button>
+            <button class="nav-tab" data-tab="overlap">Client Overlap</button>
+            <button class="nav-tab" data-tab="realoptions">Real Options</button>
+            <button class="nav-tab" data-tab="risk">Risk Analysis</button>
+            <button class="nav-tab" data-tab="insights">Key Insights</button>
+        </div>
+        <div class="nav-status">
+            <span class="status-indicator live"></span>
+            <span class="status-text">Live Analysis</span>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        
+        <!-- DASHBOARD TAB -->
+        <section id="dashboard" class="tab-panel active">
+            <div class="hero">
+                <div class="hero-content">
+                    <div class="hero-badge">Strategic Decision Support Tool</div>
+                    <h1 class="hero-title">Janus Henderson M&A<br>Real Options Analysis</h1>
+                    <p class="hero-subtitle">Quantitative framework for evaluating strategic alternatives in the context of competing acquisition proposals</p>
+                    <div class="hero-stats">
+                        <div class="stat-card">
+                            <div class="stat-value">$52.21</div>
+                            <div class="stat-label">JHG Current Price</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value">$49.00</div>
+                            <div class="stat-label">Trian Offer</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value">$57.04</div>
+                            <div class="stat-label">Victory Offer</div>
+                        </div>
+                        <div class="stat-card highlight">
+                            <div class="stat-value">$3.42</div>
+                            <div class="stat-label">Option Value</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container">
+                <div class="deal-comparison">
+                    <div class="deal-card trian">
+                        <div class="deal-header">
+                            <h3>Trian / General Catalyst</h3>
+                            <span class="deal-type">Take-Private</span>
+                        </div>
+                        <div class="deal-price">$49.00<span>/share</span></div>
+                        <div class="deal-details">
+                            <div class="detail"><span>Structure:</span><span>All-Cash</span></div>
+                            <div class="detail"><span>Equity Value:</span><span>$7.4B</span></div>
+                            <div class="detail"><span>Premium:</span><span>18%</span></div>
+                            <div class="detail"><span>Client Consent:</span><span>80%</span></div>
+                        </div>
+                        <div class="deal-rationale">
+                            <strong>Strategic Rationale:</strong> AI-driven transformation, operational efficiency improvements
+                        </div>
+                    </div>
+
+                    <div class="deal-card victory">
+                        <div class="deal-header">
+                            <h3>Victory Capital</h3>
+                            <span class="deal-type">Mega-Merger</span>
+                        </div>
+                        <div class="deal-price">$57.04<span>/share</span></div>
+                        <div class="deal-details">
+                            <div class="detail"><span>Structure:</span><span>$30 Cash + 0.35 VCTR</span></div>
+                            <div class="detail"><span>Equity Value:</span><span>$8.6B</span></div>
+                            <div class="detail"><span>Premium:</span><span>37%</span></div>
+                            <div class="detail"><span>Client Consent:</span><span>75%</span></div>
+                        </div>
+                        <div class="deal-rationale">
+                            <strong>Strategic Rationale:</strong> Scale to $800B AUM, $500M cost synergies
+                        </div>
+                    </div>
+                </div>
+
+                <div class="quick-analysis">
+                    <h2>Quick Analysis</h2>
+                    <div class="analysis-grid">
+                        <div class="analysis-card">
+                            <h4>Option to Wait</h4>
+                            <div class="value">$3.42</div>
+                            <p>Value of deferring decision for better terms</p>
+                        </div>
+                        <div class="analysis-card">
+                            <h4>Expected Value</h4>
+                            <div class="value">$52.83</div>
+                            <p>Probability-weighted outcome</p>
+                        </div>
+                        <div class="analysis-card highlight">
+                            <h4>Recommendation</h4>
+                            <div class="value">WAIT</div>
+                            <p>Engage Victory for improved terms</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PATHWAYS TAB -->
+        <section id="pathways" class="tab-panel">
+            <div class="pathways-hero">
+                <div class="hero-content">
+                    <div class="hero-badge">Strategic Transformation Analysis</div>
+                    <h1 class="hero-title">Two Paths Forward</h1>
+                    <p class="hero-subtitle">Comparing AI-driven transformation vs. scale consolidation strategies</p>
+                </div>
+            </div>
+
+            <div class="container">
+                <div class="pathway-comparison">
+                    <div class="pathway-card trian-path">
+                        <div class="pathway-header">
+                            <span class="icon">🚀</span>
+                            <h3>Path A: Trian Take-Private</h3>
+                            <span class="tag">AI-Driven Transformation</span>
+                        </div>
+                        <div class="pathway-offer">
+                            <span class="price">$49.00</span>
+                            <span class="terms">All-Cash Take-Private</span>
+                        </div>
+                        <div class="pathway-metrics">
+                            <div class="metric">
+                                <span class="label">AI Savings Potential</span>
+                                <span class="value highlight">$450-720M/year</span>
+                            </div>
+                            <div class="metric">
+                                <span class="label">Cost Reduction</span>
+                                <span class="value">25-40%</span>
+                            </div>
+                            <div class="metric">
+                                <span class="label">Timeline</span>
+                                <span class="value">18-24 months</span>
+                            </div>
+                        </div>
+                        <div class="ai-opportunities">
+                            <h4>AI Cost Savings Opportunities</h4>
+                            <div class="opportunity">
+                                <span class="name">Report Validation</span>
+                                <span class="savings">$57K/year</span>
+                                <span class="change">150hrs → 20hrs/quarter</span>
+                            </div>
+                            <div class="opportunity">
+                                <span class="name">Data Extraction</span>
+                                <span class="savings">75% error reduction</span>
+                                <span class="change">2-5% → &lt;0.5% error rate</span>
+                            </div>
+                            <div class="opportunity">
+                                <span class="name">Client Onboarding</span>
+                                <span class="savings">90% time reduction</span>
+                                <span class="change">5-7 days → same-day</span>
+                            </div>
+                            <div class="opportunity">
+                                <span class="name">Compliance Monitoring</span>
+                                <span class="savings">10% maintenance savings</span>
+                                <span class="change">Sample → 100% real-time</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="pathway-card victory-path">
+                        <div class="pathway-header">
+                            <span class="icon">🏛️</span>
+                            <h3>Path B: Victory Mega-Merger</h3>
+                            <span class="tag">Scale Consolidation</span>
+                        </div>
+                        <div class="pathway-offer">
+                            <span class="price">$57.04</span>
+                            <span class="terms">$30 Cash + 0.35 VCTR Stock</span>
+                        </div>
+                        <div class="pathway-metrics">
+                            <div class="metric">
+                                <span class="label">Cost Synergies</span>
+                                <span class="value highlight">$500M/year</span>
+                            </div>
+                            <div class="metric">
+                                <span class="label">Combined AUM</span>
+                                <span class="value">~$800B</span>
+                            </div>
+                            <div class="metric">
+                                <span class="label">JHG Ownership</span>
+                                <span class="value">38% pro forma</span>
+                            </div>
+                        </div>
+                        <div class="synergy-breakdown">
+                            <h4>$500M Annual Synergy Target</h4>
+                            <div class="synergy-item">
+                                <span class="color" style="background:#003B5C"></span>
+                                <span class="name">Technology Consolidation</span>
+                                <span class="amount">$150M</span>
+                            </div>
+                            <div class="synergy-item">
+                                <span class="color" style="background:#0077C8"></span>
+                                <span class="name">Middle/Back Office</span>
+                                <span class="amount">$180M</span>
+                            </div>
+                            <div class="synergy-item">
+                                <span class="color" style="background:#C9A961"></span>
+                                <span class="name">Vendor Consolidation</span>
+                                <span class="amount">$100M</span>
+                            </div>
+                            <div class="synergy-item">
+                                <span class="color" style="background:#28A745"></span>
+                                <span class="name">Real Estate</span>
+                                <span class="amount">$40M</span>
+                            </div>
+                        </div>
+                        <div class="track-record">
+                            <h4>Victory's Proven Track Record</h4>
+                            <div class="track-stats">
+                                <div class="stat">
+                                    <span class="value">800%</span>
+                                    <span class="label">Stock gain since USAA</span>
+                                </div>
+                                <div class="stat">
+                                    <span class="value">$97M</span>
+                                    <span class="label">Of $110M synergies achieved</span>
+                                </div>
+                                <div class="stat">
+                                    <span class="value">52.8%</span>
+                                    <span class="label">Q4 2025 EBITDA margin</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="comparison-table-section">
+                    <h2>Side-by-Side Comparison</h2>
+                    <table class="comparison-table">
+                        <thead>
+                            <tr>
+                                <th>Dimension</th>
+                                <th class="trian-col">Trian Take-Private</th>
+                                <th class="victory-col">Victory Mega-Merger</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Offer Value</td>
+                                <td>$49.00 (all-cash)</td>
+                                <td>$57.04 ($30 cash + 0.35 VCTR)</td>
+                            </tr>
+                            <tr>
+                                <td>Certainty</td>
+                                <td>✅ High - Cash, committed financing</td>
+                                <td>⚠️ Medium - 47% stock component</td>
+                            </tr>
+                            <tr>
+                                <td>Strategic Focus</td>
+                                <td>AI transformation, operational efficiency</td>
+                                <td>Scale, cost synergies, market power</td>
+                            </tr>
+                            <tr>
+                                <td>Cost Savings</td>
+                                <td>$450-720M/year (AI-driven)</td>
+                                <td>$500M/year (integration synergies)</td>
+                            </tr>
+                            <tr>
+                                <td>Ownership</td>
+                                <td>0% - Full exit</td>
+                                <td>38% - Participate in upside</td>
+                            </tr>
+                            <tr>
+                                <td>Client Consent</td>
+                                <td>80% threshold (higher hurdle)</td>
+                                <td>75% threshold (lower hurdle)</td>
+                            </tr>
+                            <tr>
+                                <td>Timeline</td>
+                                <td>H2 2026 (9-12 months)</td>
+                                <td>12-18 months (if successful)</td>
+                            </tr>
+                            <tr>
+                                <td>Talent Risk</td>
+                                <td>⚠️ Moderate - AI may displace roles</td>
+                                <td>🔴 High - 600-800 role reductions</td>
+                            </tr>
+                            <tr>
+                                <td>Client Risk</td>
+                                <td>🟢 Low - Continuity, no overlap</td>
+                                <td>🔴 Medium - 15-25% overlap risk</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- OVERLAP TAB -->
+        <section id="overlap" class="tab-panel">
+            <div class="overlap-hero">
+                <div class="hero-content">
+                    <div class="hero-badge">Revenue Risk Assessment</div>
+                    <h1 class="hero-title">Client Overlap Analysis</h1>
+                    <p class="hero-subtitle">Quantifying revenue at risk from client concentration and competitive overlap</p>
+                </div>
+            </div>
+
+            <div class="container">
+                <div class="overlap-calculator">
+                    <h2>Interactive Overlap Risk Calculator</h2>
+                    <div class="calculator-grid">
+                        <div class="input-panel">
+                            <h3>Scenario Parameters</h3>
+                            
+                            <div class="input-group">
+                                <label>Institutional Client Overlap (%)</label>
+                                <div class="slider-wrap">
+                                    <input type="range" id="instOverlap" min="0" max="50" value="25" class="slider">
+                                    <span class="slider-value">25%</span>
+                                </div>
+                            </div>
+
+                            <div class="input-group">
+                                <label>Intermediary Channel Overlap (%)</label>
+                                <div class="slider-wrap">
+                                    <input type="range" id="intOverlap" min="0" max="50" value="20" class="slider">
+                                    <span class="slider-value">20%</span>
+                                </div>
+                            </div>
+
+                            <div class="input-group">
+                                <label>Insurance Client Overlap (%)</label>
+                                <div class="slider-wrap">
+                                    <input type="range" id="insOverlap" min="0" max="50" value="30" class="slider">
+                                    <span class="slider-value">30%</span>
+                                </div>
+                            </div>
+
+                            <div class="input-group">
+                                <label>Expected Retention Rate (%)</label>
+                                <div class="slider-wrap">
+                                    <input type="range" id="retention" min="50" max="100" value="85" class="slider">
+                                    <span class="slider-value">85%</span>
+                                </div>
+                            </div>
+
+                            <div class="input-group">
+                                <label>Time to Close (months)</label>
+                                <div class="slider-wrap">
+                                    <input type="range" id="timeToClose" min="6" max="24" value="12" class="slider">
+                                    <span class="slider-value">12</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="results-panel">
+                            <h3>Risk Assessment Results</h3>
+                            <div class="risk-cards">
+                                <div class="risk-card high">
+                                    <div class="label">Revenue at Risk</div>
+                                    <div class="value" id="revRisk">$186M</div>
+                                </div>
+                                <div class="risk-card medium">
+                                    <div class="label">AUM at Risk</div>
+                                    <div class="value" id="aumRisk">$45B</div>
+                                </div>
+                                <div class="risk-card critical">
+                                    <div class="label">Break-Even Synergy</div>
+                                    <div class="value" id="breakEven">$558M</div>
+                                </div>
+                            </div>
+                            <div class="risk-meter">
+                                <div class="label">Overall Risk Level</div>
+                                <div class="meter-bar">
+                                    <div class="meter-fill" style="width: 65%"></div>
+                                </div>
+                                <div class="meter-text">MODERATE-HIGH</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="segment-analysis">
+                    <h2>Client Segment Analysis</h2>
+                    <div class="segments">
+                        <div class="segment high-risk">
+                            <div class="segment-header">
+                                <span class="icon">🏢</span>
+                                <h4>Institutional</h4>
+                                <span class="aum">$153B (31%)</span>
+                            </div>
+                            <div class="risk-badge">HIGH OVERLAP RISK</div>
+                            <ul>
+                                <li>Pension funds & endowments</li>
+                                <li>Insurance general accounts</li>
+                                <li>Corporate treasuries</li>
+                            </ul>
+                            <p><strong>Risk:</strong> Consultant-driven decisions, RFP processes favor incumbents</p>
+                        </div>
+
+                        <div class="segment medium-risk">
+                            <div class="segment-header">
+                                <span class="icon">🤝</span>
+                                <h4>Intermediary</h4>
+                                <span class="aum">$241B (49%)</span>
+                            </div>
+                            <div class="risk-badge">MEDIUM OVERLAP RISK</div>
+                            <ul>
+                                <li>Wirehouse advisors (MSSB, UBS, Wells)</li>
+                                <li>Independent RIAs</li>
+                                <li>Bank trust departments</li>
+                            </ul>
+                            <p><strong>Risk:</strong> Platform shelf space competition, wholesaler disruption</p>
+                        </div>
+
+                        <div class="segment low-risk">
+                            <div class="segment-header">
+                                <span class="icon">👤</span>
+                                <h4>Self-Directed</h4>
+                                <span class="aum">$99B (20%)</span>
+                            </div>
+                            <div class="risk-badge">LOW OVERLAP RISK</div>
+                            <ul>
+                                <li>Direct retail investors</li>
+                                <li>Retirement plan participants</li>
+                                <li>529 education plans</li>
+                            </ul>
+                            <p><strong>Risk:</strong> Brand loyalty varies by channel, fee sensitivity</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="guardian-section">
+                    <h2>🛡️ Guardian Life Mandate: Critical Asset</h2>
+                    <div class="guardian-card">
+                        <div class="guardian-header">
+                            <div class="size">$46.5B</div>
+                            <div class="label">Strategic Mandate Win</div>
+                        </div>
+                        <div class="guardian-body">
+                            <div class="details">
+                                <div class="detail"><span>Client Type:</span><span>Insurance General Account</span></div>
+                                <div class="detail"><span>Strategy:</span><span>Investment-Grade Public Fixed Income</span></div>
+                                <div class="detail"><span>Won:</span><span>Q3 2025</span></div>
+                                <div class="detail"><span>Annual Revenue:</span><span>~$45-50M</span></div>
+                            </div>
+                            <div class="risks">
+                                <h4>⚠️ Retention Risk Factors</h4>
+                                <ul>
+                                    <li>Insurance clients are conservative - prefer stability</li>
+                                    <li>Integration uncertainty may trigger fiduciary review</li>
+                                    <li>Competitive pressure during transition</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- REAL OPTIONS TAB -->
+        <section id="realoptions" class="tab-panel">
+            <div class="realoptions-hero">
+                <div class="hero-content">
+                    <div class="hero-badge">Advanced Option Pricing</div>
+                    <h1 class="hero-title">Multi-Type Real Options Analysis</h1>
+                    <p class="hero-subtitle">Beyond simple waiting: switch, abandon, expand, and compound options in M&A</p>
+                </div>
+            </div>
+
+            <div class="container">
+                <div class="option-types">
+                    <div class="type-card">
+                        <div class="icon">⏱️</div>
+                        <h3>Option to Wait</h3>
+                        <p>Defer decision to gather more information</p>
+                        <div class="value">$3.42</div>
+                    </div>
+                    <div class="type-card">
+                        <div class="icon">🔄</div>
+                        <h3>Option to Switch</h3>
+                        <p>Right to choose between competing bids</p>
+                        <div class="value">$4.18</div>
+                    </div>
+                    <div class="type-card">
+                        <div class="icon">🚪</div>
+                        <h3>Option to Abandon</h3>
+                        <p>Exit both deals, pursue independence</p>
+                        <div class="value">$2.15</div>
+                    </div>
+                    <div class="type-card highlight">
+                        <div class="icon">🔀</div>
+                        <h3>Compound Option</h3>
+                        <p>Option on an option (wait → then decide)</p>
+                        <div class="value">$5.67</div>
+                    </div>
+                </div>
+
+                <div class="decision-matrix">
+                    <h2>Decision Matrix</h2>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Strategy</th>
+                                <th>Value/Share</th>
+                                <th>Probability</th>
+                                <th>Recommendation</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Accept Trian Now</strong></td>
+                                <td>$49.00</td>
+                                <td>100%</td>
+                                <td class="avoid">Certain but suboptimal</td>
+                            </tr>
+                            <tr class="highlight">
+                                <td><strong>Wait for Victory</strong></td>
+                                <td>$52.83</td>
+                                <td>40%</td>
+                                <td class="optimal">✅ Optimal strategy</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Wait + Trian Enhances</strong></td>
+                                <td>$52-54</td>
+                                <td>20%</td>
+                                <td class="good">Good outcome</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Deal Collapse</strong></td>
+                                <td>$44-46</td>
+                                <td>15%</td>
+                                <td class="bad">Downside scenario</td>
+                            </tr>
+                            <tr class="best">
+                                <td><strong>Compound Option</strong></td>
+                                <td>$54.85-56.20</td>
+                                <td>Weighted</td>
+                                <td class="optimal">🎯 Best risk-adjusted</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="expected-value">
+                    <div class="ev-box">
+                        <h4>Expected Value of Waiting</h4>
+                        <div class="value">$52.83</div>
+                        <p>vs. $49.00 immediate Trian acceptance</p>
+                        <div class="premium">+$3.83/share (7.8% upside)</div>
+                    </div>
+                    <div class="ev-box highlight">
+                        <h4>Compound Option Value</h4>
+                        <div class="value">$55.42</div>
+                        <p>Risk-adjusted with flexibility premium</p>
+                        <div class="premium">+$6.42/share (13.1% upside)</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- RISK TAB -->
+        <section id="risk" class="tab-panel">
+            <div class="risk-hero">
+                <div class="hero-content">
+                    <div class="hero-badge">Comprehensive Risk Assessment</div>
+                    <h1 class="hero-title">Deal Break Risk Analysis</h1>
+                    <p class="hero-subtitle">Quantifying failure scenarios and position sizing for merger arbitrage</p>
+                </div>
+            </div>
+
+            <div class="container">
+                <div class="risk-factors">
+                    <h2>Risk Factor Dashboard</h2>
+                    <div class="risk-grid">
+                        <div class="risk-factor high">
+                            <div class="header">
+                                <span class="icon">👥</span>
+                                <h4>Client Consent Failure</h4>
+                                <span class="badge">HIGH</span>
+                            </div>
+                            <div class="prob">Probability: <strong>15-20%</strong></div>
+                            <div class="impact">Impact: <strong>Deal Collapse</strong></div>
+                            <p>Trian: 80% threshold | Victory: 75% threshold</p>
+                        </div>
+
+                        <div class="risk-factor critical">
+                            <div class="header">
+                                <span class="icon">🗳️</span>
+                                <h4>Trian Blocking Position</h4>
+                                <span class="badge">CRITICAL</span>
+                            </div>
+                            <div class="prob">Probability: <strong>25-30%</strong></div>
+                            <div class="impact">Impact: <strong>Victory Path Blocked</strong></div>
+                            <p>20.6% ownership + Jersey supermajority = 87.5% needed without Trian</p>
+                        </div>
+
+                        <div class="risk-factor low">
+                            <div class="header">
+                                <span class="icon">⚖️</span>
+                                <h4>Regulatory/HSR Review</h4>
+                                <span class="badge">LOW</span>
+                            </div>
+                            <div class="prob">Probability: <strong>5%</strong></div>
+                            <div class="impact">Impact: <strong>Delay</strong></div>
+                            <p>Combined ~$807B AUM still &lt; 5% market share</p>
+                        </div>
+
+                        <div class="risk-factor medium">
+                            <div class="header">
+                                <span class="icon">👔</span>
+                                <h4>Key Talent Departure</h4>
+                                <span class="badge">MEDIUM</span>
+                            </div>
+                            <div class="prob">Probability: <strong>15-25%</strong></div>
+                            <div class="impact">Impact: <strong>AUM Outflows</strong></div>
+                            <p>PM departures trigger client redemptions</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="deal-break-prob">
+                    <h2>Deal Break Probability</h2>
+                    <div class="prob-display">
+                        <div class="label">Combined Probability</div>
+                        <div class="value">42.3%</div>
+                        <div class="formula">1 - ∏(1 - pᵢ) for independent events</div>
+                    </div>
+                    <div class="outcomes">
+                        <div class="outcome">
+                            <span class="color trian"></span>
+                            <span>Trian Success: <strong>35%</strong></span>
+                        </div>
+                        <div class="outcome">
+                            <span class="color victory"></span>
+                            <span>Victory Success: <strong>23%</strong></span>
+                        </div>
+                        <div class="outcome">
+                            <span class="color collapse"></span>
+                            <span>Deal Collapse: <strong>42%</strong></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="historical-precedents">
+                    <h2>Historical Deal Break Precedents</h2>
+                    <div class="precedents">
+                        <div class="precedent">
+                            <h4>Industry Average</h4>
+                            <div class="rate">6%</div>
+                            <p>All M&A transactions (global)</p>
+                        </div>
+                        <div class="precedent">
+                            <h4>Hostile Deals</h4>
+                            <div class="rate">15-20%</div>
+                            <p>Unsolicited acquisition attempts</p>
+                        </div>
+                        <div class="precedent highlight">
+                            <h4>Asset Management</h4>
+                            <div class="rate">8-12%</div>
+                            <p>Client consent requirements</p>
+                        </div>
+                        <div class="precedent">
+                            <h4>High Overlap</h4>
+                            <div class="rate">12-18%</div>
+                            <p>Significant client/product overlap</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- INSIGHTS TAB -->
+        <section id="insights" class="tab-panel">
+            <div class="insights-hero">
+                <div class="hero-content">
+                    <div class="hero-badge">Executive Summary</div>
+                    <h1 class="hero-title">Key Insights & Recommendations</h1>
+                    <p class="hero-subtitle">Strategic conclusions from real options analysis and M&A research</p>
+                </div>
+            </div>
+
+            <div class="container">
+                <div class="primary-recommendation">
+                    <div class="rec-card">
+                        <div class="header">
+                            <span class="icon">🎯</span>
+                            <h2>Primary Recommendation</h2>
+                        </div>
+                        <div class="statement">
+                            Reject the $49 Trian offer as inadequate and engage Victory Capital to negotiate improved terms with a target of <strong>$58-62 per share</strong>
+                        </div>
+                        <div class="rationale">
+                            <h4>Strategic Rationale:</h4>
+                            <ul>
+                                <li>Victory's $57.04 offer is <strong>16% higher</strong> than Trian on headline terms</li>
+                                <li>Real options analysis shows <strong>$3.42/share value</strong> in waiting for better terms</li>
+                                <li>Compound option strategy could yield <strong>$54.85-56.20/share</strong></li>
+                                <li>Trian's 20.6% stake creates negotiating leverage for enhanced offer</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="key-insights">
+                    <h2>🔑 Critical Insights</h2>
+                    <div class="insights-grid">
+                        <div class="insight-card">
+                            <div class="number">01</div>
+                            <div class="icon">🤖</div>
+                            <h3>AI Transformation Value</h3>
+                            <div class="highlight">Trian's AI playbook could deliver <strong>$450-720M annually</strong> in cost savings</div>
+                            <p>McKinsey research shows mid-sized asset managers can capture <strong>25-40% of cost base</strong> through AI-enabled workflow reimagining.</p>
+                        </div>
+
+                        <div class="insight-card">
+                            <div class="number">02</div>
+                            <div class="icon">🔄</div>
+                            <h3>Client Overlap Risk</h3>
+                            <div class="highlight"><strong>15-25% institutional overlap</strong> creates $3-5B AUM attrition risk</div>
+                            <p>Historical precedent shows <strong>6% average revenue attrition</strong> in asset management M&A, with high-overlap deals seeing <strong>10-15%</strong>.</p>
+                        </div>
+
+                        <div class="insight-card">
+                            <div class="number">03</div>
+                            <div class="icon">🗳️</div>
+                            <h3>Trian's Blocking Position</h3>
+                            <div class="highlight"><strong>20.6% ownership + Jersey law</strong> makes Victory path nearly impossible without Trian support</div>
+                            <p>Without Trian's 20.6% vote, Victory would need <strong>87.5% of remaining shareholders</strong> to approve.</p>
+                        </div>
+
+                        <div class="insight-card">
+                            <div class="number">04</div>
+                            <div class="icon">📈</div>
+                            <h3>Victory's Proven Playbook</h3>
+                            <div class="highlight"><strong>800% stock appreciation</strong> and $97M of $110M synergies achieved ahead of schedule</div>
+                            <p>Victory has demonstrated exceptional integration capabilities with USAA and Amundi US acquisitions.</p>
+                        </div>
+
+                        <div class="insight-card">
+                            <div class="number">05</div>
+                            <div class="icon">🛡️</div>
+                            <h3>Guardian Life Mandate</h3>
+                            <div class="highlight"><strong>$46.5B strategic win</strong> at risk in merger uncertainty</div>
+                            <p>The Guardian Life mandate represents ~$45-50M in annual revenue and validates JHG's institutional fixed income capabilities.</p>
+                        </div>
+
+                        <div class="insight-card">
+                            <div class="number">06</div>
+                            <div class="icon">💎</div>
+                            <h3>Real Options Premium</h3>
+                            <div class="highlight"><strong>$3.42/share option value</strong> in waiting - rises to $5.67 with compound option</div>
+                            <p>Traditional DCF analysis misses the value of flexibility in strategic decision-making.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="action-timeline">
+                    <h2>✅ Recommended Actions</h2>
+                    <div class="timeline">
+                        <div class="item immediate">
+                            <div class="marker">NOW</div>
+                            <div class="content">
+                                <h4>Immediate Actions</h4>
+                                <ul>
+                                    <li>Formally reject Trian's $49 offer as inadequate</li>
+                                    <li>Engage Victory Capital in exclusive negotiations</li>
+                                    <li>Commission independent valuation of VCTR stock component</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="item short">
+                            <div class="marker">30D</div>
+                            <div class="content">
+                                <h4>Short-Term (30 Days)</h4>
+                                <ul>
+                                    <li>Negotiate Victory offer enhancement (target $58-62)</li>
+                                    <li>Explore three-party solution with Trian</li>
+                                    <li>Conduct management presentations to key shareholders</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="item medium">
+                            <div class="marker">90D</div>
+                            <div class="content">
+                                <h4>Medium-Term (90 Days)</h4>
+                                <ul>
+                                    <li>Execute definitive agreement with winning bidder</li>
+                                    <li>Launch formal client consent solicitation</li>
+                                    <li>File proxy materials and HSR notification</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <script src="js/spa.js"></script>
+</body>
+</html>
