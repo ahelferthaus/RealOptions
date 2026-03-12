@@ -170,6 +170,18 @@
         .news-item a:hover { color: var(--primary); text-decoration: underline; }
         .news-source { display: inline-block; font-size: 11px; color: #999; margin-left: 8px; }
 
+        /* Wiki Definitions */
+        .wiki-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 16px; }
+        .wiki-category { margin-bottom: 24px; }
+        .wiki-category h3 { color: var(--primary); font-size: 15px; margin-bottom: 12px; padding-bottom: 6px; border-bottom: 2px solid var(--gold); display: inline-block; }
+        .wiki-entry { background: white; border-radius: 10px; padding: 16px 18px; box-shadow: 0 1px 6px rgba(0,0,0,0.06); border-left: 3px solid var(--secondary); margin-bottom: 12px; }
+        .wiki-entry h4 { margin: 0 0 6px 0; font-size: 14px; color: var(--primary); }
+        .wiki-entry h4 a { color: var(--secondary); text-decoration: none; }
+        .wiki-entry h4 a:hover { text-decoration: underline; }
+        .wiki-entry p { margin: 0; font-size: 12.5px; color: #555; line-height: 1.6; }
+        .wiki-entry .wiki-ref { font-size: 11px; color: #999; font-style: italic; margin-top: 6px; }
+        .wiki-entry .wiki-app { display: inline-block; margin-top: 8px; font-size: 11px; background: #e8f4fc; color: #004085; padding: 2px 8px; border-radius: 3px; font-weight: 600; }
+
         /* Responsive */
         @media (max-width: 600px) {
             .hero-title { font-size: 24px; }
@@ -195,6 +207,7 @@
             <button class="nav-tab" onclick="showTab('comps', this)">Comps</button>
             <button class="nav-tab" onclick="showTab('synergy', this)">Synergy</button>
             <button class="nav-tab" onclick="showTab('news', this)">News</button>
+            <button class="nav-tab" onclick="showTab('wiki', this)">Wiki</button>
         </div>
     </nav>
 
@@ -1108,6 +1121,240 @@
                 </div>
             </div>
         </section>
+
+        <!-- WIKI -->
+        <section id="wiki" class="tab-panel">
+            <div class="card">
+                <h2>Definitions &amp; References</h2>
+                <p style="font-size: 13px; color: #666; margin-bottom: 5px;">Glossary of theoretical frameworks, financial models, and key concepts used throughout this application. Each entry links to authoritative sources.</p>
+            </div>
+
+            <div class="wiki-category">
+                <h3>Options &amp; Valuation Models</h3>
+                <div class="wiki-grid">
+                    <div class="wiki-entry">
+                        <h4><a href="https://en.wikipedia.org/wiki/Real_options_valuation" target="_blank">Real Options Valuation &#8599;</a></h4>
+                        <p>Applies financial option pricing techniques to capital budgeting and strategic decisions. Recognizes that managerial flexibility (to wait, expand, abandon, or switch) has quantifiable value beyond static NPV analysis.</p>
+                        <div class="wiki-ref">Dixit &amp; Pindyck (1994) &mdash; <em>Investment Under Uncertainty</em></div>
+                        <div class="wiki-app">Used in: Calculator, Dashboard</div>
+                    </div>
+                    <div class="wiki-entry">
+                        <h4><a href="https://en.wikipedia.org/wiki/Binomial_options_pricing_model" target="_blank">Binomial Tree Model (CRR) &#8599;</a></h4>
+                        <p>Discrete-time model for option pricing where the underlying asset moves up by factor <em>u = e<sup>&sigma;&radic;&Delta;t</sup></em> or down by <em>d = 1/u</em> at each step. Risk-neutral probability <em>p = (e<sup>r&Delta;t</sup> &minus; d) / (u &minus; d)</em>. Values are computed via backward induction from terminal nodes.</p>
+                        <div class="wiki-ref">Cox, Ross &amp; Rubinstein (1979) &mdash; Option pricing: a simplified approach</div>
+                        <div class="wiki-app">Used in: Calculator</div>
+                    </div>
+                    <div class="wiki-entry">
+                        <h4><a href="https://en.wikipedia.org/wiki/Black%E2%80%93Scholes_model" target="_blank">Black-Scholes Model &#8599;</a></h4>
+                        <p>Continuous-time model for pricing European-style options. Provides a closed-form solution: <em>C = S&middot;N(d<sub>1</sub>) &minus; K&middot;e<sup>&minus;rT</sup>&middot;N(d<sub>2</sub>)</em>. Used here as a cross-validation against the binomial tree result.</p>
+                        <div class="wiki-ref">Black &amp; Scholes (1973) &mdash; The pricing of options and corporate liabilities</div>
+                        <div class="wiki-app">Used in: Calculator</div>
+                    </div>
+                    <div class="wiki-entry">
+                        <h4><a href="https://en.wikipedia.org/wiki/Backward_induction" target="_blank">Backward Induction &#8599;</a></h4>
+                        <p>Solution method for sequential games and option trees. Starting from terminal payoffs, the optimal decision at each node is determined by working backwards to the root. Ensures time-consistent optimal strategy.</p>
+                        <div class="wiki-app">Used in: Calculator</div>
+                    </div>
+                    <div class="wiki-entry">
+                        <h4><a href="https://en.wikipedia.org/wiki/Risk-neutral_measure" target="_blank">Risk-Neutral Probability &#8599;</a></h4>
+                        <p>A probability measure under which all assets earn the risk-free rate. Enables valuation by discounting expected payoffs at the risk-free rate rather than estimating risk premia. Central to derivatives pricing.</p>
+                        <div class="wiki-app">Used in: Calculator</div>
+                    </div>
+                    <div class="wiki-entry">
+                        <h4><a href="https://en.wikipedia.org/wiki/Net_present_value" target="_blank">Net Present Value (NPV) &#8599;</a></h4>
+                        <p>The sum of discounted future cash flows minus the initial investment. A positive NPV indicates value creation. The Synergy tab computes 5-year risk-adjusted NPV using a PV annuity factor.</p>
+                        <div class="wiki-app">Used in: Synergy</div>
+                    </div>
+                    <div class="wiki-entry">
+                        <h4><a href="https://en.wikipedia.org/wiki/Error_function" target="_blank">Error Function (erf) &#8599;</a></h4>
+                        <p>Special mathematical function used to compute the cumulative normal distribution N(x) required by Black-Scholes. Implemented here via the Abramowitz &amp; Stegun polynomial approximation since JavaScript lacks a native erf().</p>
+                        <div class="wiki-ref">Abramowitz &amp; Stegun (1964) &mdash; <em>Handbook of Mathematical Functions</em></div>
+                        <div class="wiki-app">Used in: Calculator (polyfill)</div>
+                    </div>
+                    <div class="wiki-entry">
+                        <h4><a href="https://en.wikipedia.org/wiki/Greeks_(finance)" target="_blank">Option Greeks (Delta) &#8599;</a></h4>
+                        <p>Sensitivity measures for option prices. Delta (&Delta;) measures the rate of change of option value with respect to the underlying price. Used for hedging and understanding directional exposure.</p>
+                        <div class="wiki-app">Used in: Calculator</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="wiki-category">
+                <h3>Game Theory &amp; Contract Theory</h3>
+                <div class="wiki-grid">
+                    <div class="wiki-entry">
+                        <h4><a href="https://en.wikipedia.org/wiki/Nash_equilibrium" target="_blank">Nash Equilibrium &#8599;</a></h4>
+                        <p>A strategy profile where no player can improve their payoff by unilaterally changing their strategy. In the JHG context, Trian's dominant strategy is to hold at $49 because enhancing the bid costs $450M+ while the blocking stake secures the current offer.</p>
+                        <div class="wiki-ref">Nash (1951) &mdash; Non-cooperative games</div>
+                        <div class="wiki-app">Used in: Strategy (Game Theory)</div>
+                    </div>
+                    <div class="wiki-entry">
+                        <h4><a href="https://en.wikipedia.org/wiki/Hold-up_problem" target="_blank">Hold-Up Problem &#8599;</a></h4>
+                        <p>Occurs when one party can exploit relationship-specific investments after contracts are incomplete. Trian's 20.7% blocking stake, $297M breakup fee, and insider information create a triple hold-up that prevents efficient price discovery for minority shareholders.</p>
+                        <div class="wiki-ref">Grossman &amp; Hart (1980); Williamson (1979)</div>
+                        <div class="wiki-app">Used in: Strategy (Game Theory)</div>
+                    </div>
+                    <div class="wiki-entry">
+                        <h4><a href="https://en.wikipedia.org/wiki/Rubinstein_bargaining_model" target="_blank">Rubinstein Bargaining Model &#8599;</a></h4>
+                        <p>Sequential-offers bargaining game with discounting. The party with greater patience (lower discount rate) captures more surplus. Trian's PE structure gives it a longer time horizon than dispersed public shareholders.</p>
+                        <div class="wiki-ref">Rubinstein (1982) &mdash; Perfect equilibrium in a bargaining model</div>
+                        <div class="wiki-app">Used in: Strategy (Game Theory)</div>
+                    </div>
+                    <div class="wiki-entry">
+                        <h4><a href="https://en.wikipedia.org/wiki/Veto" target="_blank">Veto Player Theory &#8599;</a></h4>
+                        <p>A veto player is an actor whose agreement is required for a change in the status quo. Trian's 20.7% stake effectively gives it veto power over any deal requiring supermajority approval, narrowing the set of feasible outcomes.</p>
+                        <div class="wiki-ref">Tsebelis (2002) &mdash; <em>Veto Players: How Political Institutions Work</em></div>
+                        <div class="wiki-app">Used in: Strategy (Game Theory)</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="wiki-category">
+                <h3>Agency Theory &amp; Corporate Governance</h3>
+                <div class="wiki-grid">
+                    <div class="wiki-entry">
+                        <h4><a href="https://en.wikipedia.org/wiki/Principal%E2%80%93agent_problem" target="_blank">Principal-Agent Problem &#8599;</a></h4>
+                        <p>Arises when an agent (e.g., management) acts on behalf of a principal (e.g., shareholders) but their incentives diverge. Information asymmetry lets the agent pursue self-interest. Three nested P-A conflicts operate in the JHG deal.</p>
+                        <div class="wiki-ref">Jensen &amp; Meckling (1976) &mdash; Theory of the firm</div>
+                        <div class="wiki-app">Used in: Strategy (Agency Theory)</div>
+                    </div>
+                    <div class="wiki-entry">
+                        <h4><a href="https://en.wikipedia.org/wiki/Moral_hazard" target="_blank">Moral Hazard &#8599;</a></h4>
+                        <p>When one party takes risks because the costs are borne by another. The PM departure threat is a moral hazard: shareholders cannot verify whether PMs would actually leave, yet the board uses it to justify accepting a lower bid.</p>
+                        <div class="wiki-ref">Holmstrom (1979) &mdash; Moral hazard and observability</div>
+                        <div class="wiki-app">Used in: Strategy (Agency Theory)</div>
+                    </div>
+                    <div class="wiki-entry">
+                        <h4><a href="https://en.wikipedia.org/wiki/Pay_Without_Performance" target="_blank">Rent Extraction &#8599;</a></h4>
+                        <p>When insiders capture value that should flow to shareholders. The $8.04/share gap between Victory's rejected $57.04 and Trian's $49.00 may represent rent extraction enabled by Trian's dual role as bidder and major holder.</p>
+                        <div class="wiki-ref">Bebchuk &amp; Fried (2004) &mdash; <em>Pay Without Performance</em></div>
+                        <div class="wiki-app">Used in: Strategy (Agency Theory)</div>
+                    </div>
+                    <div class="wiki-entry">
+                        <h4><a href="https://en.wikipedia.org/wiki/Business_judgment_rule" target="_blank">Business Judgment Rule &#8599;</a></h4>
+                        <p>Legal presumption that directors acted on an informed basis, in good faith, and in the honest belief that the action was in the company's best interest. Shields board decisions from judicial second-guessing absent fraud or self-dealing.</p>
+                        <div class="wiki-app">Used in: Strategy (Framework Convergence)</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="wiki-category">
+                <h3>Strategic &amp; Industry Analysis</h3>
+                <div class="wiki-grid">
+                    <div class="wiki-entry">
+                        <h4><a href="https://en.wikipedia.org/wiki/Porter%27s_five_forces_analysis" target="_blank">Porter's Five Forces &#8599;</a></h4>
+                        <p>Framework for analyzing industry competitiveness: threat of new entrants, bargaining power of suppliers, bargaining power of buyers, threat of substitutes, and competitive rivalry. Applied here to asset management's structural dynamics.</p>
+                        <div class="wiki-ref">Porter (1979, 1980) &mdash; <em>Competitive Strategy</em></div>
+                        <div class="wiki-app">Used in: Strategy (Five Forces)</div>
+                    </div>
+                    <div class="wiki-entry">
+                        <h4><a href="https://en.wikipedia.org/wiki/Stakeholder_theory" target="_blank">Stakeholder Theory &#8599;</a></h4>
+                        <p>Argues that firms should create value for all stakeholders (employees, customers, communities, suppliers), not just shareholders. The Stakeholder Value comparison maps winners and losers under each JHG scenario.</p>
+                        <div class="wiki-ref">Freeman (1984) &mdash; <em>Strategic Management: A Stakeholder Approach</em></div>
+                        <div class="wiki-app">Used in: Strategy (Stakeholder Value)</div>
+                    </div>
+                    <div class="wiki-entry">
+                        <h4><a href="https://en.wikipedia.org/wiki/Resource_dependence_theory" target="_blank">Resource Dependence Theory &#8599;</a></h4>
+                        <p>Organizations depend on resources controlled by external actors, which shapes power dynamics. Key PMs control the critical resource (client relationships and investment alpha), giving them outsized leverage in the deal.</p>
+                        <div class="wiki-ref">Pfeffer &amp; Salancik (1978) &mdash; <em>The External Control of Organizations</em></div>
+                        <div class="wiki-app">Used in: Strategy (Stakeholder Value)</div>
+                    </div>
+                    <div class="wiki-entry">
+                        <h4><a href="https://en.wikipedia.org/wiki/Mergers_and_acquisitions#Synergy" target="_blank">Synergy Trap &#8599;</a></h4>
+                        <p>The tendency for acquirers to overestimate synergies and overpay for acquisitions. Sirower showed that most mergers fail to deliver promised synergies, especially revenue synergies (historically 20-40% realization rates in asset management).</p>
+                        <div class="wiki-ref">Sirower (1997) &mdash; <em>The Synergy Trap</em>; Damodaran (2005)</div>
+                        <div class="wiki-app">Used in: Strategy (Synergy Trap), Synergy tab</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="wiki-category">
+                <h3>Behavioral Finance</h3>
+                <div class="wiki-grid">
+                    <div class="wiki-entry">
+                        <h4><a href="https://en.wikipedia.org/wiki/Prospect_theory" target="_blank">Prospect Theory &#8599;</a></h4>
+                        <p>Describes how people choose between probabilistic alternatives involving risk. Key insight: losses are felt roughly 2x more than equivalent gains (loss aversion), and people evaluate outcomes relative to a reference point, not absolute wealth.</p>
+                        <div class="wiki-ref">Kahneman &amp; Tversky (1979) &mdash; Prospect theory: an analysis of decision under risk</div>
+                        <div class="wiki-app">Used in: Strategy (Behavioral Finance)</div>
+                    </div>
+                    <div class="wiki-entry">
+                        <h4><a href="https://en.wikipedia.org/wiki/Loss_aversion" target="_blank">Loss Aversion &#8599;</a></h4>
+                        <p>The tendency to prefer avoiding losses over acquiring equivalent gains. JHG holders above $49 face a realized loss if the Trian deal closes, which Prospect Theory suggests carries ~2x the psychological weight of an equivalent gain.</p>
+                        <div class="wiki-app">Used in: Strategy (Behavioral Finance)</div>
+                    </div>
+                    <div class="wiki-entry">
+                        <h4><a href="https://en.wikipedia.org/wiki/Anchoring_(cognitive_bias)" target="_blank">Anchoring Bias &#8599;</a></h4>
+                        <p>Cognitive bias where initial information disproportionately influences judgment. Victory's $57.04 bid created a psychological anchor that makes the $49 Trian offer feel inadequate, even though Victory's bid was rejected.</p>
+                        <div class="wiki-app">Used in: Strategy (Behavioral Finance)</div>
+                    </div>
+                    <div class="wiki-entry">
+                        <h4><a href="https://en.wikipedia.org/wiki/Merger_arbitrage" target="_blank">Merger Arbitrage &#8599;</a></h4>
+                        <p>Strategy of buying the target and shorting the acquirer to capture the deal spread. JHG's inverted spread (stock above deal price) is rare and signals the market believes there is significant probability of a higher outcome than $49.</p>
+                        <div class="wiki-ref">Mitchell &amp; Pulvino (2001); Baker &amp; Savasoglu (2002)</div>
+                        <div class="wiki-app">Used in: Strategy (Behavioral Finance)</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="wiki-category">
+                <h3>M&amp;A &amp; Deal Mechanics</h3>
+                <div class="wiki-grid">
+                    <div class="wiki-entry">
+                        <h4><a href="https://en.wikipedia.org/wiki/Breakup_fee" target="_blank">Breakup Fee (Termination Fee) &#8599;</a></h4>
+                        <p>Penalty paid if a deal fails to close, typically due to the target accepting a superior proposal. JHG's $297M fee to Trian means any rival bidder must effectively offer ~$2/share more just to cover the penalty before creating shareholder value.</p>
+                        <div class="wiki-app">Used in: Calculator, Strategy</div>
+                    </div>
+                    <div class="wiki-entry">
+                        <h4><a href="https://en.wikipedia.org/wiki/Leveraged_buyout" target="_blank">Leveraged Buyout (LBO) &#8599;</a></h4>
+                        <p>Acquisition funded primarily with debt, using the target's cash flows for repayment. Trian's take-private follows the PE LBO playbook: acquire, cut costs, transform operations, exit at a higher multiple in 5-7 years.</p>
+                        <div class="wiki-app">Used in: Comps (H&amp;F/Financial Engines, Reverence/Victory)</div>
+                    </div>
+                    <div class="wiki-entry">
+                        <h4><a href="https://en.wikipedia.org/wiki/Merger_of_equals" target="_blank">Merger of Equals (MOE) &#8599;</a></h4>
+                        <p>A combination where neither party is characterized as the acquirer. Often structured as all-stock with shared governance. The original 2017 Janus/Henderson merger was an MOE. These deals have mixed records on post-merger AUM retention.</p>
+                        <div class="wiki-app">Used in: Comps (Janus/Henderson 2017)</div>
+                    </div>
+                    <div class="wiki-entry">
+                        <h4><a href="https://en.wikipedia.org/wiki/Blocking_minority" target="_blank">Blocking Stake &#8599;</a></h4>
+                        <p>An ownership position large enough to prevent actions requiring supermajority approval. Trian's 20.7% can block any deal needing a two-thirds vote, creating a structural advantage in M&amp;A negotiations.</p>
+                        <div class="wiki-app">Used in: Strategy, Comps (Key Lessons)</div>
+                    </div>
+                    <div class="wiki-entry">
+                        <h4><a href="https://en.wikipedia.org/wiki/Assets_under_management" target="_blank">Assets Under Management (AUM) &#8599;</a></h4>
+                        <p>Total market value of assets a firm manages on behalf of clients. JHG manages ~$493B. AUM retention post-merger is a critical success metric &mdash; the Comps tab shows historical retention rates across comparable deals.</p>
+                        <div class="wiki-app">Used in: Dashboard, Overlap, Comps</div>
+                    </div>
+                    <div class="wiki-entry">
+                        <h4><a href="https://en.wikipedia.org/wiki/Fee_compression" target="_blank">Fee Compression &#8599;</a></h4>
+                        <p>Secular decline in asset management fees driven by passive investing growth, institutional buyer power, and competition. Average equity fund fees fell from ~100bps (2000) to ~42bps (2025), pushing break-even scale to $300-400B AUM.</p>
+                        <div class="wiki-app">Used in: Strategy (Five Forces)</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="wiki-category">
+                <h3>Data Sources &amp; Filings</h3>
+                <div class="wiki-grid">
+                    <div class="wiki-entry">
+                        <h4><a href="https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0000872651&type=&dateb=&owner=include&count=40" target="_blank">SEC EDGAR &mdash; JHG Filings &#8599;</a></h4>
+                        <p>Electronic Data Gathering, Analysis, and Retrieval system. All public company filings (10-K, 10-Q, DEF 14A proxy statements, SC 13D/A beneficial ownership) are sourced from EDGAR.</p>
+                    </div>
+                    <div class="wiki-entry">
+                        <h4><a href="https://finance.yahoo.com/quote/JHG/" target="_blank">JHG Market Data &#8599;</a></h4>
+                        <p>Real-time and historical stock price, volume, market cap, and fundamental data for Janus Henderson Group plc (NYSE: JHG).</p>
+                    </div>
+                    <div class="wiki-entry">
+                        <h4><a href="https://en.wikipedia.org/wiki/Janus_Henderson" target="_blank">Janus Henderson (Wikipedia) &#8599;</a></h4>
+                        <p>Background on Janus Henderson Investors &mdash; history, the 2017 Janus/Henderson merger of equals, business segments, and key figures.</p>
+                    </div>
+                    <div class="wiki-entry">
+                        <h4><a href="https://en.wikipedia.org/wiki/Trian_Fund_Management" target="_blank">Trian Fund Management (Wikipedia) &#8599;</a></h4>
+                        <p>Background on Trian Partners &mdash; Nelson Peltz's activist hedge fund, investment philosophy, notable campaigns, and the General Catalyst partnership for the JHG bid.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
     </main>
 
     <script>
