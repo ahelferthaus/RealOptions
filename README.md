@@ -216,7 +216,7 @@ The application is fully responsive:
 - All calculations are client-side
 - No data is transmitted to external servers
 - No cookies or local storage used
-- Safe for confidential strategic analysis
+- All analysis based solely on publicly available information
 
 ## Limitations
 
@@ -234,14 +234,16 @@ The application is fully responsive:
 - [ ] Dark mode toggle
 - [ ] Additional sensitivity parameters
 
-## License
+## Disclaimer
 
-Proprietary - Janus Henderson Investors
+**This project is an independent analytical exercise built entirely from publicly available information.** No non-public, confidential, or proprietary information from Janus Henderson Investors, Trian Fund Management, Victory Capital, or any other party is used or reflected in this analysis. All data, estimates, and projections are derived from public filings (SEC EDGAR), press releases, news articles, and standard financial models.
+
+This tool is for educational and analytical purposes only. It does not constitute investment advice, and no representation is made regarding the accuracy or completeness of any analysis. Actual results may vary. Past performance is not indicative of future results.
 
 ## Contact
 
-For questions or support regarding this analysis tool, contact:
-- Head of Strategy, Janus Henderson Investors
+For questions about this project, contact:
+- **Adrian Helfert** — [GitHub](https://github.com/ahelferthaus)
 
 ## Acknowledgments
 
@@ -251,6 +253,4 @@ For questions or support regarding this analysis tool, contact:
 
 ---
 
-**Disclaimer**: This analysis tool is for strategic planning purposes only. All projections are based on publicly available information and internal estimates. Actual results may vary. Past performance is not indicative of future results.
-
-© 2025 Janus Henderson Investors. Confidential & Proprietary.
+© 2025 Adrian Helfert. All rights reserved.
