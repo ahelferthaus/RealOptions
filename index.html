@@ -342,21 +342,21 @@
                         <div class="input-group">
                             <label>P(Victory Success)</label>
                             <div class="input-wrap">
-                                <input type="range" class="slider" id="probVictory" min="0" max="100" value="40" oninput="updateCalculator()">
+                                <input type="range" class="slider" id="probVictory" min="0" max="100" value="40" oninput="trueUpProb('victory')">
                                 <span class="input-value" id="probVictoryVal">40%</span>
                             </div>
                         </div>
                         <div class="input-group">
                             <label>P(Trian Enhances)</label>
                             <div class="input-wrap">
-                                <input type="range" class="slider" id="probEnhance" min="0" max="100" value="20" oninput="updateCalculator()">
+                                <input type="range" class="slider" id="probEnhance" min="0" max="100" value="20" oninput="trueUpProb('enhance')">
                                 <span class="input-value" id="probEnhanceVal">20%</span>
                             </div>
                         </div>
                         <div class="input-group">
-                            <label>P(Deal Collapse)</label>
+                            <label>P(Deal Collapse) <span style="font-weight:400; font-size:11px; color:#888;">— independent</span></label>
                             <div class="input-wrap">
-                                <input type="range" class="slider" id="probCollapse" min="0" max="100" value="15" oninput="updateCalculator()">
+                                <input type="range" class="slider" id="probCollapse" min="0" max="100" value="15" oninput="trueUpProb('collapse')">
                                 <span class="input-value" id="probCollapseVal">15%</span>
                             </div>
                         </div>
@@ -1181,6 +1181,51 @@
             return { value: values[0][0], u: u, d: d, p: p };
         }
         
+        // True-up probabilities to always sum to 100%
+        // Victory and Trian Enhance absorb each other; Collapse is independent
+        function trueUpProb(changed) {
+            var vSlider = document.getElementById('probVictory');
+            var eSlider = document.getElementById('probEnhance');
+            var cSlider = document.getElementById('probCollapse');
+            var v = parseInt(vSlider.value);
+            var e = parseInt(eSlider.value);
+            var c = parseInt(cSlider.value);
+
+            if (changed === 'collapse') {
+                // User changed collapse — shrink victory & enhance proportionally
+                var available = 100 - c;
+                if (available < 0) { cSlider.value = 100; c = 100; available = 0; }
+                var veSum = v + e;
+                if (veSum === 0) {
+                    // Split evenly if both are zero
+                    v = Math.round(available / 2);
+                    e = available - v;
+                } else if (veSum > available) {
+                    // Scale down proportionally
+                    var ratio = available / veSum;
+                    v = Math.round(v * ratio);
+                    e = available - v;
+                }
+                // If v+e < available, the remainder goes to Trian base — that's fine
+                vSlider.value = v;
+                eSlider.value = e;
+            } else if (changed === 'victory') {
+                // User changed Victory — adjust Enhance to compensate
+                var maxVE = 100 - c;
+                if (v > maxVE) { v = maxVE; vSlider.value = v; }
+                e = Math.max(0, Math.min(e, maxVE - v));
+                eSlider.value = e;
+            } else if (changed === 'enhance') {
+                // User changed Enhance — adjust Victory to compensate
+                var maxVE = 100 - c;
+                if (e > maxVE) { e = maxVE; eSlider.value = e; }
+                v = Math.max(0, Math.min(v, maxVE - e));
+                vSlider.value = v;
+            }
+
+            updateCalculator();
+        }
+
         // Update Calculator
         function updateCalculator() {
             var S = parseFloat(document.getElementById('calcPrice').value);
@@ -1195,7 +1240,7 @@
             var probEnhance = parseFloat(document.getElementById('probEnhance').value) / 100;
             var probCollapse = parseFloat(document.getElementById('probCollapse').value) / 100;
             var probTrian = 1 - probVictory - probEnhance - probCollapse;
-            
+
             // Update display values
             document.getElementById('calcPriceVal').textContent = '$' + S.toFixed(2);
             document.getElementById('calcTrianVal').textContent = '$' + K.toFixed(2);
@@ -1203,23 +1248,19 @@
             document.getElementById('calcVolVal').textContent = (sigma * 100).toFixed(1) + '%';
             document.getElementById('calcTimeVal').textContent = timeMonths;
             document.getElementById('calcRateVal').textContent = (r * 100).toFixed(1) + '%';
-            document.getElementById('probVictoryVal').textContent = (probVictory * 100).toFixed(0) + '%';
-            document.getElementById('probEnhanceVal').textContent = (probEnhance * 100).toFixed(0) + '%';
-            document.getElementById('probCollapseVal').textContent = (probCollapse * 100).toFixed(0) + '%';
+            document.getElementById('probVictoryVal').textContent = Math.round(probVictory * 100) + '%';
+            document.getElementById('probEnhanceVal').textContent = Math.round(probEnhance * 100) + '%';
+            document.getElementById('probCollapseVal').textContent = Math.round(probCollapse * 100) + '%';
 
-            // Probability sum check
-            var probSum = Math.round(probVictory * 100) + Math.round(probEnhance * 100) + Math.round(probCollapse * 100);
-            var probTrianPct = 100 - probSum;
+            // Probability sum display (always 100%)
+            var pV = Math.round(probVictory * 100);
+            var pE = Math.round(probEnhance * 100);
+            var pC = Math.round(probCollapse * 100);
+            var pT = 100 - pV - pE - pC;
             var sumBox = document.getElementById('probSumBox');
-            if (probSum > 100) {
-                sumBox.style.background = '#f8d7da';
-                sumBox.style.color = '#DC3545';
-                sumBox.innerHTML = 'Total: ' + probSum + '% — <strong>Exceeds 100%!</strong> Reduce probabilities.';
-            } else {
-                sumBox.style.background = '#e8f4fc';
-                sumBox.style.color = '#003B5C';
-                sumBox.innerHTML = 'Sum: ' + probSum + '% — P(Trian base): ' + probTrianPct + '% — Total: 100%';
-            }
+            sumBox.style.background = '#e8f4fc';
+            sumBox.style.color = '#003B5C';
+            sumBox.innerHTML = 'Victory: ' + pV + '% + Enhance: ' + pE + '% + Collapse: ' + pC + '% + <strong>Trian base: ' + pT + '%</strong> = 100%';
             
             // Calculate options
             var binom = binomialOption(S, K, T, r, sigma, 50);
