@@ -2,8 +2,7 @@
 
 A professional, interactive web application for strategic decision-making in the context of competing acquisition proposals. This tool implements real options analysis methodology to evaluate the Janus Henderson (JHG) M&A situation involving proposals from Trian Fund Management and Victory Capital.
 
-![Janus Henderson Logo](https://www.janushenderson.com/assets/images/logo.png)
-
+https://ahelferthaus.github.io/RealOptions/
 ## Overview
 
 This application provides board-level strategic decision support through:
