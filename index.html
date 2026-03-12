@@ -110,6 +110,57 @@
         /* Formula Box */
         .formula-box { background: #f8f9fa; border-radius: 8px; padding: 15px; font-family: monospace; font-size: 12px; margin: 15px 0; }
         
+        /* Framework Cards */
+        .fw-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 20px; }
+        .fw-card { background: white; border-radius: 12px; padding: 22px; box-shadow: 0 2px 10px rgba(0,0,0,0.08); border-left: 4px solid var(--secondary); }
+        .fw-card h3 { color: var(--primary); margin-bottom: 8px; font-size: 16px; }
+        .fw-card .fw-source { font-size: 11px; color: #999; font-style: italic; margin-bottom: 10px; }
+        .fw-card p, .fw-card li { font-size: 13px; color: #555; line-height: 1.6; }
+        .fw-card ul { margin-left: 18px; }
+        .fw-card .fw-verdict { margin-top: 12px; padding: 10px; border-radius: 6px; font-size: 13px; font-weight: 600; }
+        .fw-card .fw-verdict.negative { background: #f8d7da; color: #721c24; }
+        .fw-card .fw-verdict.positive { background: #d4edda; color: #155724; }
+        .fw-card .fw-verdict.neutral { background: #fff3cd; color: #856404; }
+        .payoff-table { width: 100%; border-collapse: collapse; font-size: 12px; margin: 10px 0; }
+        .payoff-table th, .payoff-table td { padding: 8px; border: 1px solid #ddd; text-align: center; }
+        .payoff-table th { background: var(--primary); color: white; font-size: 11px; }
+        .payoff-table td.best { background: #d4edda; font-weight: 600; }
+        .payoff-table td.worst { background: #f8d7da; }
+
+        /* Comps Table */
+        .comps-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+        .comps-table th { background: var(--primary); color: white; padding: 10px 8px; font-size: 11px; text-align: left; white-space: nowrap; }
+        .comps-table td { padding: 10px 8px; border-bottom: 1px solid #eee; vertical-align: top; }
+        .comps-table tr:hover { background: #f8f9fa; }
+        .comps-table .highlight-row { background: #e8f4fc; }
+        .comp-tag { display: inline-block; font-size: 10px; font-weight: 600; padding: 2px 6px; border-radius: 3px; }
+        .comp-tag.cash { background: #d4edda; color: #155724; }
+        .comp-tag.stock { background: #fff3cd; color: #856404; }
+        .comp-tag.mix { background: #e8f4fc; color: #004085; }
+        .lesson-box { background: #f8f9fa; border-radius: 8px; padding: 15px; margin-top: 15px; }
+        .lesson-box h4 { color: var(--primary); font-size: 14px; margin-bottom: 8px; }
+        .lesson-box li { font-size: 12px; color: #555; margin-bottom: 6px; }
+
+        /* Synergy Calculator */
+        .synergy-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .synergy-bar { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
+        .synergy-bar label { font-size: 12px; min-width: 140px; color: #555; }
+        .synergy-bar .slider { flex: 1; }
+        .synergy-bar .synergy-val { min-width: 55px; text-align: right; font-weight: 600; font-size: 13px; color: var(--primary); }
+        .synergy-result { text-align: center; padding: 18px; border-radius: 10px; margin-bottom: 12px; }
+        .synergy-result .label { font-size: 11px; color: #666; text-transform: uppercase; margin-bottom: 4px; }
+        .synergy-result .value { font-size: 26px; font-weight: 700; }
+        .synergy-result.green { background: #d4edda; border: 1px solid #28a745; }
+        .synergy-result.green .value { color: #155724; }
+        .synergy-result.red { background: #f8d7da; border: 1px solid #dc3545; }
+        .synergy-result.red .value { color: #721c24; }
+        .synergy-result.blue { background: #e8f4fc; border: 1px solid #0077C8; }
+        .synergy-result.blue .value { color: #003B5C; }
+        .waterfall-item { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #eee; font-size: 13px; }
+        .waterfall-item:last-child { border-bottom: none; font-weight: 700; }
+        .waterfall-positive { color: #28a745; }
+        .waterfall-negative { color: #dc3545; }
+
         /* News Items */
         .news-list { display: flex; flex-direction: column; gap: 0; }
         .news-item { display: flex; align-items: baseline; gap: 12px; padding: 12px 0; border-bottom: 1px solid #eee; }
@@ -140,6 +191,9 @@
             <button class="nav-tab" onclick="showTab('overlap', this)">Overlap</button>
             <button class="nav-tab" onclick="showTab('charts', this)">Charts</button>
             <button class="nav-tab" onclick="showTab('insights', this)">Insights</button>
+            <button class="nav-tab" onclick="showTab('strategy', this)">Strategy</button>
+            <button class="nav-tab" onclick="showTab('comps', this)">Comps</button>
+            <button class="nav-tab" onclick="showTab('synergy', this)">Synergy</button>
             <button class="nav-tab" onclick="showTab('news', this)">News</button>
         </div>
     </nav>
@@ -594,6 +648,388 @@
                 </div>
             </div>
         </section>
+        <!-- STRATEGY -->
+        <section id="strategy" class="tab-panel">
+            <div class="card">
+                <h2>Multi-Framework Strategic Analysis</h2>
+                <p style="font-size: 13px; color: #666; margin-bottom: 5px;">Six corporate strategy lenses applied to the JHG M&amp;A situation. Each framework illuminates a different dimension of the deal dynamics.</p>
+                <p style="font-size: 11px; color: #999; margin-bottom: 20px;">References: Nash (1951), Grossman &amp; Hart (1980), Williamson (1979), Jensen &amp; Meckling (1976), Porter (1979), Kahneman &amp; Tversky (1979), Sirower (1997), Freeman (1984)</p>
+            </div>
+
+            <div class="fw-grid">
+                <div class="fw-card" style="border-left-color: #6f42c1;">
+                    <h3>1. Game Theory &mdash; Hold-Up Problem</h3>
+                    <div class="fw-source">Grossman &amp; Hart (1980), Rubinstein (1982), Tsebelis (2002)</div>
+                    <p>Trian's 20.7% stake creates a <strong>triple hold-up</strong>:</p>
+                    <ul>
+                        <li><strong>Voting hold-up:</strong> Can block any rival deal needing 2/3 approval</li>
+                        <li><strong>Information hold-up:</strong> As insider, signals to rivals that $49 reflects informed valuation</li>
+                        <li><strong>Breakup fee hold-up:</strong> $297M fee means rivals must bid ~$2/share higher just to break even</li>
+                    </ul>
+                    <table class="payoff-table">
+                        <tr><th>Player</th><th>Deal at $49</th><th>Enhanced $52</th><th>Collapse</th></tr>
+                        <tr><td style="text-align:left;font-weight:600;">Trian</td><td class="best">Acquires at floor</td><td>Pays $450M more</td><td class="worst">Stuck at 20.7%</td></tr>
+                        <tr><td style="text-align:left;font-weight:600;">Board</td><td class="best">Duty fulfilled</td><td>Better optics</td><td class="worst">Liability risk</td></tr>
+                        <tr><td style="text-align:left;font-weight:600;">Shareholders</td><td class="worst">Below market</td><td class="best">Near market</td><td>$42-45 risk</td></tr>
+                        <tr><td style="text-align:left;font-weight:600;">Key PMs</td><td class="best">PE comp/equity</td><td class="best">PE comp/equity</td><td>Status quo</td></tr>
+                    </table>
+                    <div class="fw-verdict negative">Nash Equilibrium: Trian's dominant strategy is to hold at $49. The game structure prevents Pareto-efficient outcomes for minority shareholders.</div>
+                </div>
+
+                <div class="fw-card" style="border-left-color: #dc3545;">
+                    <h3>2. Agency Theory &mdash; Nested Conflicts</h3>
+                    <div class="fw-source">Jensen &amp; Meckling (1976), Bebchuk &amp; Fried (2004), Holmstrom (1979)</div>
+                    <p>Three interlocking principal-agent problems:</p>
+                    <ul>
+                        <li><strong>Trian as bidder AND 20.7% holder:</strong> Net interest favors lower price. Each $1 drop saves 58.6&cent; net (pays 79.3&cent; less, loses 20.7&cent; on own stake)</li>
+                        <li><strong>Board vs. shareholders:</strong> Approved $49 when market says $51.64. Board's revealed preference weights PM retention above $1.2B in shareholder value</li>
+                        <li><strong>PM departure threat:</strong> Unverifiable by shareholders (Holmstrom's "unobservable action" problem). PMs and board interests align against minority holders</li>
+                    </ul>
+                    <div class="fw-verdict negative">The $8.04/share gap between Victory's $57.04 and Trian's $49.00 represents ~$1.2B in forgone shareholder value, justified by unverifiable PM retention claims.</div>
+                </div>
+
+                <div class="fw-card" style="border-left-color: #0077C8;">
+                    <h3>3. Porter's Five Forces &mdash; Industry Structure</h3>
+                    <div class="fw-source">Porter (1979, 1980), McKinsey Global Asset Management Report</div>
+                    <ul>
+                        <li><strong>Substitutes (VERY HIGH):</strong> Passive/index share grew from 25% to 55%+ of US fund AUM in 20 years. Fee compression ~2-3%/year</li>
+                        <li><strong>Buyer power (HIGH):</strong> Institutional consultants (Mercer, Aon) drive fee negotiation. Guardian Life's $46.5B = 9.4% of AUM concentration risk</li>
+                        <li><strong>Supplier power (VERY HIGH):</strong> Star PMs are the "means of production." Their departure threat killed a $1.2B-higher bid</li>
+                        <li><strong>Rivalry (INTENSE):</strong> Avg equity fund fees: ~100bps (2000) &rarr; ~42bps (2025). Break-even scale now ~$300-400B AUM</li>
+                    </ul>
+                    <div class="fw-verdict neutral">JHG at $493B AUM is above break-even scale but in Porter's "stuck in the middle" &mdash; too big for boutique, too small to compete with BlackRock/Vanguard on scale.</div>
+                </div>
+
+                <div class="fw-card" style="border-left-color: #28a745;">
+                    <h3>4. Behavioral Finance &mdash; Market Signal</h3>
+                    <div class="fw-source">Kahneman &amp; Tversky (1979), Mitchell &amp; Pulvino (2001), Baker &amp; Savasoglu (2002)</div>
+                    <p>JHG at $51.64 vs. $49.00 deal = <strong>inverted merger arb spread</strong> (-5.4%). This is rare and signals:</p>
+                    <ul>
+                        <li><strong>Anchoring:</strong> $57.04 Victory bid created a psychological anchor shareholders can't forget</li>
+                        <li><strong>Loss aversion:</strong> Holders above $49 face realized loss &mdash; 2x psychological weight per Prospect Theory</li>
+                        <li><strong>Market-implied probabilities:</strong> At $51.64, the market prices ~50% chance of deal at $49 and ~50% chance of higher outcomes &mdash; far more optimistic than the 75% base case</li>
+                    </ul>
+                    <div class="fw-verdict neutral">The inverted spread is anomalous. Typical high-probability deals trade 2-5% below offer. The market disagrees with the board's assessment of outcome probabilities.</div>
+                </div>
+
+                <div class="fw-card" style="border-left-color: #F5A623;">
+                    <h3>5. Synergy Trap Analysis</h3>
+                    <div class="fw-source">Sirower (1997), Damodaran (2005), Deloitte M&amp;A Integration Survey</div>
+                    <p>Risk-adjusted synergy NPV for the Trian deal:</p>
+                    <ul>
+                        <li><strong>Cost synergies ($190-370M/yr):</strong> 75-85% realization probability. Standard PE playbook.</li>
+                        <li><strong>AI transformation ($450-720M claim):</strong> 30-50% probability. No asset manager has achieved this scale. General Catalyst partnership is the wildcard.</li>
+                        <li><strong>Revenue synergies ($40-100M):</strong> 20-40% realization. Terrible track record in asset mgmt M&amp;A.</li>
+                    </ul>
+                    <p style="margin-top:8px;">Against this: $200-400M integration costs + $300-500M client attrition + $120-250M PM departure revenue loss.</p>
+                    <div class="fw-verdict neutral">Net synergy NPV: -$86M to +$1,957M. The deal is value-accretive ONLY if AI transformation partially delivers. At $49, shareholders capture ~50-60% of expected synergies &mdash; normal range but poor given the unilateral price.</div>
+                </div>
+
+                <div class="fw-card" style="border-left-color: #003B5C;">
+                    <h3>6. Stakeholder Value Analysis</h3>
+                    <div class="fw-source">Freeman (1984), Pfeffer &amp; Salancik (1978)</div>
+                    <table class="payoff-table">
+                        <tr><th>Stakeholder</th><th>Trian ($49)</th><th>Independence</th></tr>
+                        <tr><td style="text-align:left;">Shareholders</td><td>$49 certain, below mkt</td><td>$42-55 range</td></tr>
+                        <tr><td style="text-align:left;">Employees (~2,000)</td><td class="worst">15-25% cut likely</td><td>Gradual pressure</td></tr>
+                        <tr><td style="text-align:left;">Key PMs</td><td class="best">PE equity, autonomy</td><td>Status quo</td></tr>
+                        <tr><td style="text-align:left;">Clients ($493B)</td><td>Transition risk</td><td class="best">Continuity</td></tr>
+                        <tr><td style="text-align:left;">Communities</td><td class="worst">Office consolidation</td><td class="best">Maintained</td></tr>
+                    </table>
+                    <div class="fw-verdict negative">Total stakeholder value is NOT maximized by the Trian deal. The rejected Victory bid ($57.04) was likely superior for aggregate welfare. PM veto power effectively overrode broader stakeholder interests.</div>
+                </div>
+            </div>
+
+            <div class="card" style="margin-top: 20px; background: linear-gradient(135deg, var(--primary), #001a2e); color: white;">
+                <h2 style="color: var(--gold);">Framework Convergence</h2>
+                <p style="font-size: 14px; line-height: 1.7; opacity: 0.9;">All six frameworks point to the same structural conclusion: <strong style="color: var(--gold);">Trian has engineered a strategically dominant position</strong> that allows it to acquire JHG at a below-market price. The 20.7% blocking stake, $297M breakup fee, and aligned PM departure threats create an interlocking defense that prevents efficient price discovery. The $8.04/share gap between the rejected Victory bid and the Trian offer represents ~$1.2B in value that accrues to Trian rather than shareholders. This is legally defensible under the business judgment rule but economically suboptimal for minority holders.</p>
+            </div>
+        </section>
+
+        <!-- COMPS -->
+        <section id="comps" class="tab-panel">
+            <div class="card">
+                <h2>Comparable Asset Management M&amp;A Deals</h2>
+                <p style="font-size: 13px; color: #666; margin-bottom: 20px;">Historical precedents for evaluating the Trian/JHG transaction. Sorted by relevance to current situation.</p>
+                <div style="overflow-x: auto;">
+                <table class="comps-table">
+                    <thead>
+                        <tr>
+                            <th>Deal</th>
+                            <th>Year</th>
+                            <th>AUM</th>
+                            <th>Price</th>
+                            <th>Structure</th>
+                            <th>Synergy Target</th>
+                            <th>Synergy Realized</th>
+                            <th>AUM Retention</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="highlight-row">
+                            <td><strong>Trian-GC / JHG</strong></td>
+                            <td>2025</td>
+                            <td>$493B</td>
+                            <td>$49/sh ($7.4B)</td>
+                            <td><span class="comp-tag cash">All-Cash</span></td>
+                            <td>$450-720M (AI)</td>
+                            <td>TBD</td>
+                            <td>TBD</td>
+                        </tr>
+                        <tr style="opacity:0.6;">
+                            <td><strong>Victory / JHG</strong> (rejected)</td>
+                            <td>2026</td>
+                            <td>$493B</td>
+                            <td>$57.04/sh ($8.6B)</td>
+                            <td><span class="comp-tag mix">Cash+Stock</span></td>
+                            <td>$500M</td>
+                            <td>N/A</td>
+                            <td>N/A</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Victory / Amundi US</strong></td>
+                            <td>2022</td>
+                            <td>$103B</td>
+                            <td>~$500-800M</td>
+                            <td><span class="comp-tag mix">Cash+Stock</span></td>
+                            <td>$110M</td>
+                            <td><strong>$97M (88%)</strong></td>
+                            <td>Good, some attrition</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Franklin / Legg Mason</strong></td>
+                            <td>2020</td>
+                            <td>$806B</td>
+                            <td>$50/sh ($4.5B + $2B debt)</td>
+                            <td><span class="comp-tag cash">All-Cash</span></td>
+                            <td>$300M</td>
+                            <td><strong>$300M+ (100%+)</strong></td>
+                            <td>Mixed by affiliate</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Invesco / OppenheimerFunds</strong></td>
+                            <td>2019</td>
+                            <td>$228B</td>
+                            <td>~$5.7B</td>
+                            <td><span class="comp-tag stock">All-Stock</span></td>
+                            <td>$475M</td>
+                            <td><strong>$500M+ (105%+)</strong></td>
+                            <td>Moderate outflows</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Victory / USAA IMCO</strong></td>
+                            <td>2019</td>
+                            <td>$69B</td>
+                            <td>~$850M</td>
+                            <td><span class="comp-tag mix">Cash+Stock</span></td>
+                            <td>N/A</td>
+                            <td>Solid</td>
+                            <td><strong>Strong</strong> (excl. distro)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>H&amp;F / Financial Engines</strong></td>
+                            <td>2018</td>
+                            <td>$169B</td>
+                            <td>$45/sh ($3.0B)</td>
+                            <td><span class="comp-tag cash">All-Cash PE</span></td>
+                            <td>Undisclosed</td>
+                            <td>N/A</td>
+                            <td><strong>Stable</strong> (401k sticky)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Janus / Henderson</strong></td>
+                            <td>2017</td>
+                            <td>$331B</td>
+                            <td>All-stock MOE</td>
+                            <td><span class="comp-tag stock">All-Stock</span></td>
+                            <td>$110M</td>
+                            <td><strong>$110M (100%)</strong></td>
+                            <td><strong>Poor</strong> &mdash; persistent outflows</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Amundi / Pioneer</strong></td>
+                            <td>2017</td>
+                            <td>&euro;225B</td>
+                            <td>&euro;3.55B</td>
+                            <td><span class="comp-tag cash">All-Cash</span></td>
+                            <td>&euro;150M</td>
+                            <td><strong>&euro;150M+ (100%)</strong></td>
+                            <td>Good (distro agreement)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>TA / Russell Investments</strong></td>
+                            <td>2016</td>
+                            <td>$256B</td>
+                            <td>~$1.15B</td>
+                            <td><span class="comp-tag cash">Majority Stake</span></td>
+                            <td>Modest</td>
+                            <td>N/A</td>
+                            <td><strong>Stable</strong> (OCIO sticky)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Reverence / Victory Capital</strong></td>
+                            <td>2013</td>
+                            <td>$25B</td>
+                            <td>~$246M</td>
+                            <td><span class="comp-tag cash">All-Cash LBO</span></td>
+                            <td>N/A</td>
+                            <td>N/A</td>
+                            <td><strong>Grew to $170B+</strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>Key Lessons from Comparable Deals</h2>
+                <div class="grid-2">
+                    <div class="lesson-box">
+                        <h4>AUM Retention Benchmarks</h4>
+                        <ul>
+                            <li><strong>5-15% organic AUM attrition</strong> is typical in first 24 months post-close</li>
+                            <li><strong>Multi-boutique structures</strong> (Franklin/Legg Mason, Victory) retain better than full integration</li>
+                            <li><strong>Distribution agreements</strong> with sellers (Victory/USAA, Amundi/Pioneer) are the strongest retention mechanism</li>
+                            <li>The <strong>original JHG merger (2017)</strong> saw persistent net outflows &mdash; the most cautionary comparable</li>
+                        </ul>
+                    </div>
+                    <div class="lesson-box">
+                        <h4>Synergy Realization</h4>
+                        <ul>
+                            <li><strong>Cost synergies: 80-105%</strong> realization within 18-24 months (high confidence)</li>
+                            <li><strong>Revenue synergies: 20-40%</strong> realization (Deloitte survey). Cross-selling rarely delivers as promised</li>
+                            <li><strong>Victory's track record ($97M of $110M)</strong> was best-in-class at 88% ahead of schedule</li>
+                            <li>Trian's <strong>$450-720M AI claim</strong> has no precedent in asset management &mdash; would be the most aggressive transformation in industry history</li>
+                        </ul>
+                    </div>
+                    <div class="lesson-box">
+                        <h4>PE Take-Private Outcomes</h4>
+                        <ul>
+                            <li><strong>Reverence/Victory (2013):</strong> Best case &mdash; IPO, 800% appreciation, serial acquisitions. PE preserved team autonomy + equity incentives</li>
+                            <li><strong>H&amp;F/Financial Engines (2018):</strong> Culture clash between tech platform and advisory firm. Bumpy integration, senior exits</li>
+                            <li><strong>Key success factor:</strong> PE must preserve investment team autonomy. Cost-cutting that touches investment capabilities triggers talent departure &rarr; AUM loss</li>
+                        </ul>
+                    </div>
+                    <div class="lesson-box">
+                        <h4>Blocking Stakes &amp; Competing Bids</h4>
+                        <ul>
+                            <li>Trian's <strong>20.7% is a de facto veto</strong> under Jersey law's 2/3 threshold &mdash; historically unprecedented in asset management M&amp;A</li>
+                            <li><strong>No comparable case</strong> exists where an activist held 20%+ AND was the acquirer in this industry</li>
+                            <li>The PM departure threat that killed Victory's bid demonstrates that in asset management, <strong>human capital holds ultimate veto power</strong> over financial capital</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SYNERGY -->
+        <section id="synergy" class="tab-panel">
+            <div class="card">
+                <h2>Interactive Synergy &amp; Deal NPV Calculator</h2>
+                <p style="font-size: 13px; color: #666; margin-bottom: 20px;">Adjust assumptions to stress-test the Trian deal economics. Based on Sirower (1997) and Damodaran (2005) frameworks.</p>
+                <div class="synergy-grid">
+                    <div>
+                        <h3>Synergy Assumptions</h3>
+                        <div class="synergy-bar">
+                            <label>Cost Synergies ($/yr)</label>
+                            <input type="range" class="slider" id="synCost" min="100" max="500" value="280" step="10" oninput="updateSynergy()">
+                            <span class="synergy-val" id="synCostVal">$280M</span>
+                        </div>
+                        <div class="synergy-bar">
+                            <label>AI Transformation ($/yr)</label>
+                            <input type="range" class="slider" id="synAI" min="0" max="720" value="300" step="10" oninput="updateSynergy()">
+                            <span class="synergy-val" id="synAIVal">$300M</span>
+                        </div>
+                        <div class="synergy-bar">
+                            <label>Revenue Synergies ($/yr)</label>
+                            <input type="range" class="slider" id="synRev" min="0" max="150" value="50" step="5" oninput="updateSynergy()">
+                            <span class="synergy-val" id="synRevVal">$50M</span>
+                        </div>
+
+                        <h3 style="margin-top: 20px;">Realization Probabilities</h3>
+                        <div class="synergy-bar">
+                            <label>Cost Realization %</label>
+                            <input type="range" class="slider" id="synCostProb" min="50" max="100" value="80" oninput="updateSynergy()">
+                            <span class="synergy-val" id="synCostProbVal">80%</span>
+                        </div>
+                        <div class="synergy-bar">
+                            <label>AI Realization %</label>
+                            <input type="range" class="slider" id="synAIProb" min="10" max="80" value="40" oninput="updateSynergy()">
+                            <span class="synergy-val" id="synAIProbVal">40%</span>
+                        </div>
+                        <div class="synergy-bar">
+                            <label>Revenue Realization %</label>
+                            <input type="range" class="slider" id="synRevProb" min="10" max="60" value="30" oninput="updateSynergy()">
+                            <span class="synergy-val" id="synRevProbVal">30%</span>
+                        </div>
+
+                        <h3 style="margin-top: 20px;">Integration Costs &amp; Risks</h3>
+                        <div class="synergy-bar">
+                            <label>Integration Costs ($M)</label>
+                            <input type="range" class="slider" id="synIntCost" min="100" max="600" value="300" step="10" oninput="updateSynergy()">
+                            <span class="synergy-val" id="synIntCostVal">$300M</span>
+                        </div>
+                        <div class="synergy-bar">
+                            <label>Client Attrition ($M/yr)</label>
+                            <input type="range" class="slider" id="synAttrition" min="0" max="300" value="120" step="10" oninput="updateSynergy()">
+                            <span class="synergy-val" id="synAttritionVal">$120M</span>
+                        </div>
+                        <div class="synergy-bar">
+                            <label>PM Departure Loss ($/yr)</label>
+                            <input type="range" class="slider" id="synPMloss" min="0" max="250" value="60" step="10" oninput="updateSynergy()">
+                            <span class="synergy-val" id="synPMlossVal">$60M</span>
+                        </div>
+                        <div class="synergy-bar">
+                            <label>Discount Rate (%)</label>
+                            <input type="range" class="slider" id="synDiscount" min="8" max="18" value="12" step="0.5" oninput="updateSynergy()">
+                            <span class="synergy-val" id="synDiscountVal">12.0%</span>
+                        </div>
+                    </div>
+                    <div>
+                        <h3>Deal Economics (5-Year NPV)</h3>
+                        <div class="synergy-result blue">
+                            <div class="label">Gross Synergy NPV</div>
+                            <div class="value" id="synGrossNPV">$1,842M</div>
+                        </div>
+                        <div class="synergy-result red">
+                            <div class="label">Total Friction &amp; Costs</div>
+                            <div class="value" id="synFriction">-$949M</div>
+                        </div>
+                        <div id="synNetBox" class="synergy-result green">
+                            <div class="label">Net Value Created</div>
+                            <div class="value" id="synNetNPV">$893M</div>
+                        </div>
+                        <div class="synergy-result blue">
+                            <div class="label">Synergy Per Share (151M shares)</div>
+                            <div class="value" id="synPerShare">$5.91</div>
+                        </div>
+                        <div id="synShareBox" class="synergy-result green">
+                            <div class="label">Shareholder Share at $49 (vs $42 standalone)</div>
+                            <div class="value" id="synSharePct">$7.00 (118%)</div>
+                        </div>
+
+                        <h3 style="margin-top: 20px;">Synergy Waterfall</h3>
+                        <div style="background: #f8f9fa; border-radius: 8px; padding: 15px;">
+                            <div class="waterfall-item"><span>Risk-Adj Cost Synergies (5yr)</span><span class="waterfall-positive" id="wfCost">+$807M</span></div>
+                            <div class="waterfall-item"><span>Risk-Adj AI Transformation (5yr)</span><span class="waterfall-positive" id="wfAI">+$432M</span></div>
+                            <div class="waterfall-item"><span>Risk-Adj Revenue Synergies (5yr)</span><span class="waterfall-positive" id="wfRev">+$54M</span></div>
+                            <div class="waterfall-item"><span>One-Time Integration Costs</span><span class="waterfall-negative" id="wfInt">-$300M</span></div>
+                            <div class="waterfall-item"><span>Client Attrition (3yr NPV)</span><span class="waterfall-negative" id="wfAttr">-$288M</span></div>
+                            <div class="waterfall-item"><span>PM Departure Revenue Loss (3yr)</span><span class="waterfall-negative" id="wfPM">-$144M</span></div>
+                            <div class="waterfall-item" style="border-top: 2px solid var(--primary); padding-top: 10px;">
+                                <span><strong>Net Synergy Value Created</strong></span>
+                                <span id="wfNet" style="font-size: 16px;"><strong class="waterfall-positive">+$893M</strong></span>
+                            </div>
+                        </div>
+
+                        <div class="highlight-box" style="margin-top: 15px;">
+                            <strong>Key Insight:</strong> <span id="synInsight">At these assumptions, the deal creates value but shareholders capture more than 100% of net synergies at the $7/share premium, suggesting the deal is fair.</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <!-- NEWS -->
         <section id="news" class="tab-panel">
             <div class="card">
@@ -914,10 +1350,99 @@
             }
         }
         
+        // Synergy NPV Calculator
+        function updateSynergy() {
+            var costSyn = parseFloat(document.getElementById('synCost').value);
+            var aiSyn = parseFloat(document.getElementById('synAI').value);
+            var revSyn = parseFloat(document.getElementById('synRev').value);
+            var costProb = parseFloat(document.getElementById('synCostProb').value) / 100;
+            var aiProb = parseFloat(document.getElementById('synAIProb').value) / 100;
+            var revProb = parseFloat(document.getElementById('synRevProb').value) / 100;
+            var intCost = parseFloat(document.getElementById('synIntCost').value);
+            var attrition = parseFloat(document.getElementById('synAttrition').value);
+            var pmLoss = parseFloat(document.getElementById('synPMloss').value);
+            var discount = parseFloat(document.getElementById('synDiscount').value) / 100;
+
+            // Update display values
+            document.getElementById('synCostVal').textContent = '$' + costSyn + 'M';
+            document.getElementById('synAIVal').textContent = '$' + aiSyn + 'M';
+            document.getElementById('synRevVal').textContent = '$' + revSyn + 'M';
+            document.getElementById('synCostProbVal').textContent = costProb * 100 + '%';
+            document.getElementById('synAIProbVal').textContent = aiProb * 100 + '%';
+            document.getElementById('synRevProbVal').textContent = revProb * 100 + '%';
+            document.getElementById('synIntCostVal').textContent = '$' + intCost + 'M';
+            document.getElementById('synAttritionVal').textContent = '$' + attrition + 'M';
+            document.getElementById('synPMlossVal').textContent = '$' + pmLoss + 'M';
+            document.getElementById('synDiscountVal').textContent = discount * 100 + '%';
+
+            // 5-year PV annuity factor
+            var pvFactor5 = 0;
+            for (var i = 1; i <= 5; i++) pvFactor5 += 1 / Math.pow(1 + discount, i);
+            // 3-year PV factor for attrition/PM losses (assumed to diminish)
+            var pvFactor3 = 0;
+            for (var i = 1; i <= 3; i++) pvFactor3 += 1 / Math.pow(1 + discount, i);
+
+            // Risk-adjusted synergies
+            var raCost = costSyn * costProb * pvFactor5;
+            var raAI = aiSyn * aiProb * pvFactor5;
+            var raRev = revSyn * revProb * pvFactor5;
+            var grossNPV = raCost + raAI + raRev;
+
+            // Friction costs
+            var attrNPV = attrition * pvFactor3;
+            var pmNPV = pmLoss * pvFactor3;
+            var totalFriction = intCost + attrNPV + pmNPV;
+
+            var netNPV = grossNPV - totalFriction;
+            var shares = 151; // million
+            var perShare = netNPV / shares;
+            var premium = 7; // $49 - $42 standalone
+            var sharePct = (premium / perShare * 100);
+
+            // Update results
+            document.getElementById('synGrossNPV').textContent = '$' + Math.round(grossNPV) + 'M';
+            document.getElementById('synFriction').textContent = '-$' + Math.round(totalFriction) + 'M';
+            document.getElementById('synNetNPV').textContent = (netNPV >= 0 ? '$' : '-$') + Math.abs(Math.round(netNPV)) + 'M';
+            document.getElementById('synPerShare').textContent = '$' + perShare.toFixed(2);
+            document.getElementById('synSharePct').textContent = '$' + premium.toFixed(2) + ' (' + (isFinite(sharePct) ? Math.round(sharePct) : '---') + '%)';
+
+            // Color coding
+            var netBox = document.getElementById('synNetBox');
+            netBox.className = 'synergy-result ' + (netNPV >= 0 ? 'green' : 'red');
+            var shareBox = document.getElementById('synShareBox');
+            shareBox.className = 'synergy-result ' + (sharePct > 100 ? 'green' : sharePct > 50 ? 'neutral' : 'red');
+            if (sharePct <= 50) shareBox.className = 'synergy-result red';
+
+            // Waterfall
+            document.getElementById('wfCost').textContent = '+$' + Math.round(raCost) + 'M';
+            document.getElementById('wfAI').textContent = '+$' + Math.round(raAI) + 'M';
+            document.getElementById('wfRev').textContent = '+$' + Math.round(raRev) + 'M';
+            document.getElementById('wfInt').textContent = '-$' + intCost + 'M';
+            document.getElementById('wfAttr').textContent = '-$' + Math.round(attrNPV) + 'M';
+            document.getElementById('wfPM').textContent = '-$' + Math.round(pmNPV) + 'M';
+            var wfNetEl = document.getElementById('wfNet');
+            var sign = netNPV >= 0 ? '+' : '-';
+            var cls = netNPV >= 0 ? 'waterfall-positive' : 'waterfall-negative';
+            wfNetEl.innerHTML = '<strong class="' + cls + '">' + sign + '$' + Math.abs(Math.round(netNPV)) + 'M</strong>';
+
+            // Insight text
+            var insight = document.getElementById('synInsight');
+            if (netNPV < 0) {
+                insight.textContent = 'At these assumptions, the deal DESTROYS value. Net synergies are negative, meaning Trian overpays even at $49. Highly dependent on AI transformation delivering.';
+            } else if (sharePct > 100) {
+                insight.textContent = 'At these assumptions, the $7/share premium captures ' + Math.round(sharePct) + '% of net synergies. Shareholders get more than their fair share, suggesting the deal price is reasonable.';
+            } else if (sharePct > 50) {
+                insight.textContent = 'At these assumptions, shareholders capture ' + Math.round(sharePct) + '% of net synergies at $49. Within the normal 40-60% range per Sirower (1997), but the unilateral price-setting raises fairness concerns.';
+            } else {
+                insight.textContent = 'At these assumptions, shareholders capture only ' + Math.round(sharePct) + '% of synergies. Trian retains the majority of value created. A price of $' + (42 + perShare * 0.5).toFixed(0) + '-' + (42 + perShare * 0.6).toFixed(0) + ' would be fairer.';
+            }
+        }
+
         // Initialize
         document.addEventListener('DOMContentLoaded', function() {
             updateCalculator();
             updateOverlap();
+            updateSynergy();
         });
     </script>
 </body>
