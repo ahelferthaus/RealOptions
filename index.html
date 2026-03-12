@@ -306,6 +306,7 @@
                                 <span class="input-value" id="probCollapseVal">15%</span>
                             </div>
                         </div>
+                        <div id="probSumBox" style="margin-top: 10px; padding: 10px; border-radius: 8px; font-size: 13px; font-weight: 600; text-align: center;"></div>
                     </div>
                     <div>
                         <div class="result-card success">
@@ -769,6 +770,20 @@
             document.getElementById('probVictoryVal').textContent = (probVictory * 100).toFixed(0) + '%';
             document.getElementById('probEnhanceVal').textContent = (probEnhance * 100).toFixed(0) + '%';
             document.getElementById('probCollapseVal').textContent = (probCollapse * 100).toFixed(0) + '%';
+
+            // Probability sum check
+            var probSum = Math.round(probVictory * 100) + Math.round(probEnhance * 100) + Math.round(probCollapse * 100);
+            var probTrianPct = 100 - probSum;
+            var sumBox = document.getElementById('probSumBox');
+            if (probSum > 100) {
+                sumBox.style.background = '#f8d7da';
+                sumBox.style.color = '#DC3545';
+                sumBox.innerHTML = 'Total: ' + probSum + '% — <strong>Exceeds 100%!</strong> Reduce probabilities.';
+            } else {
+                sumBox.style.background = '#e8f4fc';
+                sumBox.style.color = '#003B5C';
+                sumBox.innerHTML = 'Sum: ' + probSum + '% — P(Trian base): ' + probTrianPct + '% — Total: 100%';
+            }
             
             // Calculate options
             var binom = binomialOption(S, K, T, r, sigma, 50);
