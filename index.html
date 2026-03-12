@@ -110,6 +110,15 @@
         /* Formula Box */
         .formula-box { background: #f8f9fa; border-radius: 8px; padding: 15px; font-family: monospace; font-size: 12px; margin: 15px 0; }
         
+        /* News Items */
+        .news-list { display: flex; flex-direction: column; gap: 0; }
+        .news-item { display: flex; align-items: baseline; gap: 12px; padding: 12px 0; border-bottom: 1px solid #eee; }
+        .news-item:last-child { border-bottom: none; }
+        .news-date { min-width: 50px; font-size: 11px; font-weight: 600; color: #999; text-transform: uppercase; }
+        .news-item a { color: var(--secondary); text-decoration: none; font-size: 14px; font-weight: 500; }
+        .news-item a:hover { color: var(--primary); text-decoration: underline; }
+        .news-source { display: inline-block; font-size: 11px; color: #999; margin-left: 8px; }
+
         /* Responsive */
         @media (max-width: 600px) {
             .hero-title { font-size: 24px; }
@@ -125,12 +134,13 @@
             <span class="logo-henderson">HENDERSON</span>
         </div>
         <div class="nav-tabs">
-            <button class="nav-tab active" onclick="showTab('dashboard')">Dashboard</button>
-            <button class="nav-tab" onclick="showTab('calculator')">Calculator</button>
-            <button class="nav-tab" onclick="showTab('scenarios')">Scenarios</button>
-            <button class="nav-tab" onclick="showTab('overlap')">Overlap</button>
-            <button class="nav-tab" onclick="showTab('charts')">Charts</button>
-            <button class="nav-tab" onclick="showTab('insights')">Insights</button>
+            <button class="nav-tab active" onclick="showTab('dashboard', this)">Dashboard</button>
+            <button class="nav-tab" onclick="showTab('calculator', this)">Calculator</button>
+            <button class="nav-tab" onclick="showTab('scenarios', this)">Scenarios</button>
+            <button class="nav-tab" onclick="showTab('overlap', this)">Overlap</button>
+            <button class="nav-tab" onclick="showTab('charts', this)">Charts</button>
+            <button class="nav-tab" onclick="showTab('insights', this)">Insights</button>
+            <button class="nav-tab" onclick="showTab('news', this)">News</button>
         </div>
     </nav>
 
@@ -142,33 +152,34 @@
                 <h1 class="hero-title">Janus Henderson M&A<br>Real Options Analysis</h1>
                 <p class="hero-subtitle">Quantitative framework for evaluating competing acquisition proposals</p>
                 <div class="hero-stats">
-                    <div class="stat-card"><div class="stat-value" id="dashPrice">$52.21</div><div class="stat-label">JHG Current</div></div>
+                    <div class="stat-card"><div class="stat-value" id="dashPrice">$51.64</div><div class="stat-label">JHG Current</div></div>
                     <div class="stat-card"><div class="stat-value">$49.00</div><div class="stat-label">Trian Offer</div></div>
-                    <div class="stat-card"><div class="stat-value">$57.04</div><div class="stat-label">Victory Offer</div></div>
-                    <div class="stat-card highlight"><div class="stat-value" id="dashOption">$3.42</div><div class="stat-label">Option Value</div></div>
+                    <div class="stat-card"><div class="stat-value" style="text-decoration: line-through; opacity: 0.5;">$57.04</div><div class="stat-label">Victory (Rejected)</div></div>
+                    <div class="stat-card highlight"><div class="stat-value" id="dashOption">$2.85</div><div class="stat-label">Option Value</div></div>
                 </div>
             </div>
             
-            <div class="tab-panel active" style="padding: 30px 20px;">
+            <div style="padding: 30px 20px;">
                 <div class="grid-2">
-                    <div class="deal-card">
-                        <div class="deal-header"><h3>Trian / General Catalyst</h3><span>Take-Private</span></div>
+                    <div class="deal-card" style="border: 2px solid var(--success);">
+                        <div class="deal-header" style="background: var(--success);"><h3 style="color:white;">Trian / General Catalyst</h3><span style="color:rgba(255,255,255,0.8);">APPROVED &mdash; Vote Apr 16</span></div>
                         <div class="deal-price">$49.00</div>
                         <div class="deal-details">
                             <div class="deal-row"><span>Structure:</span><span>All-Cash</span></div>
                             <div class="deal-row"><span>Equity Value:</span><span>$7.4B</span></div>
-                            <div class="deal-row"><span>Premium:</span><span>18%</span></div>
+                            <div class="deal-row"><span>Trian Stake:</span><span><strong>20.7%</strong></span></div>
+                            <div class="deal-row"><span>Shareholder Vote:</span><span><strong>April 16, 2026</strong></span></div>
                             <div class="deal-row"><span>AI Savings:</span><span><strong>$450-720M/year</strong></span></div>
                         </div>
                     </div>
-                    <div class="deal-card">
-                        <div class="deal-header" style="background: var(--primary);"><h3 style="color:white;">Victory Capital</h3><span style="color:var(--gold);">Mega-Merger</span></div>
-                        <div class="deal-price" style="color:var(--gold);">$57.04</div>
+                    <div class="deal-card" style="opacity: 0.6;">
+                        <div class="deal-header" style="background: #666;"><h3 style="color:white;">Victory Capital</h3><span style="color:#ccc;">REJECTED &mdash; Mar 11, 2026</span></div>
+                        <div class="deal-price" style="color:#999; text-decoration: line-through;">$57.04</div>
                         <div class="deal-details">
                             <div class="deal-row"><span>Structure:</span><span>$30 Cash + 0.35 VCTR</span></div>
                             <div class="deal-row"><span>Equity Value:</span><span>$8.6B</span></div>
-                            <div class="deal-row"><span>Premium:</span><span>37%</span></div>
-                            <div class="deal-row"><span>Synergies:</span><span><strong>$500M/year</strong></span></div>
+                            <div class="deal-row"><span>Board Decision:</span><span style="color:var(--danger);"><strong>Unanimously Rejected</strong></span></div>
+                            <div class="deal-row"><span>Status:</span><span><strong>Victory cancelled bid</strong></span></div>
                         </div>
                     </div>
                 </div>
@@ -178,18 +189,18 @@
                     <div class="grid-3">
                         <div class="card" style="text-align: center;">
                             <h3>Option to Wait</h3>
-                            <div style="font-size: 32px; font-weight: 700; color: var(--primary);" id="quickWait">$3.42</div>
+                            <div style="font-size: 32px; font-weight: 700; color: var(--primary);" id="quickWait">$2.85</div>
                             <p style="font-size: 12px; color: #666;">Value of deferring decision</p>
                         </div>
                         <div class="card" style="text-align: center;">
                             <h3>Expected Value</h3>
-                            <div style="font-size: 32px; font-weight: 700; color: var(--primary);" id="quickEV">$52.83</div>
+                            <div style="font-size: 32px; font-weight: 700; color: var(--primary);" id="quickEV">$49.52</div>
                             <p style="font-size: 12px; color: #666;">Probability-weighted outcome</p>
                         </div>
                         <div class="card" style="text-align: center; background: linear-gradient(135deg, var(--primary), var(--secondary)); color: white;">
                             <h3 style="color: white;">Recommendation</h3>
-                            <div style="font-size: 32px; font-weight: 700; color: var(--gold);">WAIT</div>
-                            <p style="font-size: 12px; color: rgba(255,255,255,0.8);">Engage Victory for improved terms</p>
+                            <div style="font-size: 32px; font-weight: 700; color: var(--gold);">EVALUATE</div>
+                            <p style="font-size: 12px; color: rgba(255,255,255,0.8);">Vote Apr 16 &mdash; Trian deal proceeding</p>
                         </div>
                     </div>
                 </div>
@@ -206,8 +217,8 @@
                         <div class="input-group">
                             <label>Current JHG Stock Price ($)</label>
                             <div class="input-wrap">
-                                <input type="range" class="slider" id="calcPrice" min="40" max="65" value="52.21" step="0.01" oninput="updateCalculator()">
-                                <span class="input-value" id="calcPriceVal">$52.21</span>
+                                <input type="range" class="slider" id="calcPrice" min="40" max="65" value="51.64" step="0.01" oninput="updateCalculator()">
+                                <span class="input-value" id="calcPriceVal">$51.64</span>
                             </div>
                         </div>
                         <div class="input-group">
@@ -319,11 +330,11 @@
                         <tr><th>Scenario</th><th>Probability</th><th>Value/Share</th><th>Key Drivers</th><th>Recommendation</th></tr>
                     </thead>
                     <tbody>
-                        <tr><td><strong>Accept Trian Now</strong></td><td>100%</td><td>$49.00</td><td>Certainty, speed to close</td><td class="avoid">AVOID - Suboptimal</td></tr>
-                        <tr style="background: #e8f5e9;"><td><strong>Wait for Victory</strong></td><td>40%</td><td>$57.04</td><td>Scale synergies, 38% ownership</td><td class="optimal">PURSUE - Optimal</td></tr>
-                        <tr><td><strong>Wait + Trian Enhances</strong></td><td>20%</td><td>$52-54</td><td>Competitive pressure, AI value</td><td class="good">ACCEPT - Good outcome</td></tr>
-                        <tr><td><strong>Deal Collapse</strong></td><td>15%</td><td>$44-46</td><td>Client consent failure, Trian blocks</td><td class="avoid">MITIGATE - Downside</td></tr>
-                        <tr style="background: #fff8e1;"><td><strong>Compound Option</strong></td><td>Weighted</td><td>$54.85-56.20</td><td>Risk-adjusted with flexibility</td><td class="optimal">OPTIMAL - Target</td></tr>
+                        <tr style="background: #e8f5e9;"><td><strong>Trian Deal Closes</strong></td><td>~75%</td><td>$49.00</td><td>Board approved, vote Apr 16, Trian holds 20.7%</td><td class="optimal">BASE CASE</td></tr>
+                        <tr><td><strong>Trian Enhances Offer</strong></td><td>~10%</td><td>$51-53</td><td>Shareholder pressure for higher price</td><td class="good">UPSIDE</td></tr>
+                        <tr><td><strong>Deal Collapse</strong></td><td>~10%</td><td>$42-45</td><td>Vote fails, client consent issues</td><td class="avoid">DOWNSIDE RISK</td></tr>
+                        <tr><td><strong>New Bidder Emerges</strong></td><td>~5%</td><td>$52-58</td><td>Post-Victory rejection, another suitor</td><td class="good">TAIL SCENARIO</td></tr>
+                        <tr style="background: #fff8e1;"><td><strong>Weighted Expected</strong></td><td>100%</td><td>$49.52</td><td>Probability-weighted across all scenarios</td><td class="optimal">CURRENT EV</td></tr>
                     </tbody>
                 </table>
             </div>
@@ -333,19 +344,19 @@
                 <div class="grid-2">
                     <div>
                         <h3>Key Decision Criteria</h3>
-                        <div class="highlight-box">Value Maximization: Victory's $57.04 > Trian's $49.00</div>
-                        <div class="highlight-box">Certainty: Trian (cash) > Victory (47% stock)</div>
-                        <div class="highlight-box">Upside: Compound option ($55.42) > Immediate ($49.00)</div>
-                        <div class="highlight-box">Risk: Trian (AI execution) vs Victory (integration)</div>
+                        <div class="highlight-box">Trian deal: $49.00 all-cash, shareholder vote April 16, 2026</div>
+                        <div class="highlight-box">Victory bid ($57.04) unanimously rejected Mar 11 &mdash; cancelled</div>
+                        <div class="highlight-box">JHG at $51.64 &mdash; $2.64 premium to deal price (5.4% spread)</div>
+                        <div class="highlight-box">Trian holds 20.7% &mdash; needs 2/3 vote under Jersey law</div>
                     </div>
                     <div>
                         <h3>Board Considerations</h3>
                         <ul style="margin-left: 20px; font-size: 13px; color: #666;">
-                            <li>Fiduciary duty to maximize shareholder value</li>
-                            <li>Fair process for all bidders</li>
-                            <li>Timeline pressure (Trian vote Q2 2026)</li>
-                            <li>Stakeholder interests (employees, clients, PMs)</li>
-                            <li>Long-term competitive positioning</li>
+                            <li>Victory rejected: key PMs threatened to leave if Victory acquired</li>
+                            <li>Client consent threshold: 75% required, PM departures jeopardize this</li>
+                            <li>Trian voting power: 20.7% stake would block any alternative deal</li>
+                            <li>$297M breakup fee owed to Trian if JHG terminates</li>
+                            <li>Shareholder vote April 16 &mdash; 2/3 approval needed (Jersey law)</li>
                         </ul>
                     </div>
                 </div>
@@ -502,15 +513,15 @@
                     <h2>Primary Recommendation</h2>
                 </div>
                 <div class="rec-statement">
-                    Reject the $49 Trian offer as inadequate and engage Victory Capital to negotiate improved terms with a target of <strong>$58-62 per share</strong>
+                    Trian deal at $49.00 proceeding to shareholder vote April 16, 2026. Victory's $57.04 bid rejected by unanimous board vote. <strong>Stock trading at $51.64 premium to deal price.</strong>
                 </div>
                 <div class="rec-rationale">
-                    <h4>Strategic Rationale:</h4>
+                    <h4>Current Situation (Updated Mar 12, 2026):</h4>
                     <ul>
-                        <li>Victory's $57.04 offer is <strong>16% higher</strong> than Trian on headline terms</li>
-                        <li>Real options analysis shows <strong>$3.42/share value</strong> in waiting for better terms</li>
-                        <li>Compound option strategy could yield <strong>$54.85-56.20/share</strong></li>
-                        <li>Trian's 20.6% stake creates negotiating leverage for enhanced offer</li>
+                        <li>Victory bid <strong>unanimously rejected</strong> Mar 11 &mdash; key PMs would have departed</li>
+                        <li>Trian/General Catalyst $49.00 all-cash deal is the <strong>only live transaction</strong></li>
+                        <li>$2.64/share spread (5.4%) implies market sees <strong>some residual uncertainty</strong></li>
+                        <li>Real options value of waiting: <strong>$2.85/share</strong> with 1 month to vote</li>
                     </ul>
                 </div>
             </div>
@@ -532,9 +543,9 @@
                     </div>
                     <div class="insight-card">
                         <div class="icon">🗳️</div>
-                        <h3>Trian's Blocking Position</h3>
-                        <div class="insight-highlight">20.6% + Jersey law</div>
-                        <p>Without Trian, Victory needs 87.5% of remaining votes - nearly impossible.</p>
+                        <h3>Trian's Controlling Position</h3>
+                        <div class="insight-highlight">20.7% stake + Apr 16 vote</div>
+                        <p>Trian's stake effectively blocked Victory bid. Now key to securing 2/3 vote approval.</p>
                     </div>
                     <div class="insight-card">
                         <div class="icon">📈</div>
@@ -558,43 +569,101 @@
             </div>
             
             <div class="card">
-                <h2>Action Timeline</h2>
+                <h2>Deal Timeline</h2>
                 <div class="grid-2">
-                    <div class="card" style="border-left: 4px solid #dc3545;">
-                        <h3>NOW - Immediate</h3>
+                    <div class="card" style="border-left: 4px solid var(--success);">
+                        <h3>Completed</h3>
                         <ul style="margin-left: 20px; font-size: 13px; color: #666;">
-                            <li>Formally reject Trian's $49 offer as inadequate</li>
-                            <li>Engage Victory Capital in exclusive negotiations</li>
-                            <li>Commission independent valuation of VCTR stock</li>
-                            <li>Begin confidential client consent outreach</li>
+                            <li><strong>Dec 21-22, 2025:</strong> Trian/General Catalyst deal announced at $49.00</li>
+                            <li><strong>Nov-Dec 2025:</strong> Victory Capital makes private proposals</li>
+                            <li><strong>Feb 26, 2026:</strong> Victory goes public with $57.04 bid</li>
+                            <li><strong>Mar 9, 2026:</strong> Record date for shareholder meeting</li>
+                            <li><strong>Mar 11, 2026:</strong> Board unanimously rejects Victory; Victory cancels</li>
                         </ul>
                     </div>
                     <div class="card" style="border-left: 4px solid #F5A623;">
-                        <h3>30 Days - Short Term</h3>
+                        <h3>Upcoming</h3>
                         <ul style="margin-left: 20px; font-size: 13px; color: #666;">
-                            <li>Negotiate Victory offer enhancement (target $58-62)</li>
-                            <li>Explore three-party solution with Trian</li>
-                            <li>Conduct management presentations to key shareholders</li>
-                            <li>Finalize break fee and protection provisions</li>
+                            <li><strong>Apr 16, 2026:</strong> Shareholder vote on Trian deal (2/3 required)</li>
+                            <li><strong>Mid-2026:</strong> Expected closing, subject to regulatory approvals</li>
+                            <li><strong>Post-close:</strong> Client consent solicitation (75% threshold)</li>
+                            <li><strong>Post-close:</strong> AI transformation and cost reduction program</li>
                         </ul>
                     </div>
-                    <div class="card" style="border-left: 4px solid var(--secondary);">
-                        <h3>90 Days - Medium Term</h3>
-                        <ul style="margin-left: 20px; font-size: 13px; color: #666;">
-                            <li>Execute definitive agreement with winning bidder</li>
-                            <li>Launch formal client consent solicitation</li>
-                            <li>File proxy materials and HSR notification</li>
-                            <li>Implement retention packages for key talent</li>
-                        </ul>
+                </div>
+            </div>
+        </section>
+        <!-- NEWS -->
+        <section id="news" class="tab-panel">
+            <div class="card">
+                <h2>Recent News &amp; Filings</h2>
+                <p style="font-size: 13px; color: #666; margin-bottom: 20px;">Major developments in the Janus Henderson M&amp;A situation. Last updated March 12, 2026.</p>
+
+                <h3 style="margin-bottom: 15px;">March 2026 &mdash; Victory Bid Rejected</h3>
+                <div class="news-list">
+                    <div class="news-item">
+                        <span class="news-date">Mar 11</span>
+                        <div><a href="https://www.businesswire.com/news/home/20260311343450/en/Janus-Henderson-Group-plc-Board-of-Directors-Determines-by-Unanimous-Vote-that-Victory-Capitals-Proposal-Is-Not-Superior-and-Reaffirms-Recommendation-of-Transaction-with-Trian-and-General-Catalyst" target="_blank">JHG Board Unanimously Rejects Victory Capital Proposal, Reaffirms Trian Deal</a><span class="news-source">BusinessWire</span></div>
                     </div>
-                    <div class="card" style="border-left: 4px solid var(--success);">
-                        <h3>12 Months - Long Term</h3>
-                        <ul style="margin-left: 20px; font-size: 13px; color: #666;">
-                            <li>Complete shareholder vote and regulatory approvals</li>
-                            <li>Close transaction</li>
-                            <li>Begin integration (Victory) or transformation (Trian)</li>
-                            <li>Monitor AUM retention and client satisfaction</li>
-                        </ul>
+                    <div class="news-item">
+                        <span class="news-date">Mar 11</span>
+                        <div><a href="https://www.businesswire.com/news/home/20260311382128/en/Trian-and-General-Catalyst-Affirm-Commitment-to-Expeditiously-Closing-Previously-Announced-All-Cash-Acquisition-of-Janus-Henderson-Group-plc" target="_blank">Trian and General Catalyst Affirm Commitment to Close JHG Acquisition</a><span class="news-source">BusinessWire</span></div>
+                    </div>
+                    <div class="news-item">
+                        <span class="news-date">Mar 11</span>
+                        <div><a href="https://seekingalpha.com/news/4563125-janus-henderson-says-victory-capital-proposal-isnt-superior" target="_blank">Janus Henderson Says Victory Capital Proposal Isn't Superior</a><span class="news-source">Seeking Alpha</span></div>
+                    </div>
+                    <div class="news-item">
+                        <span class="news-date">Mar 11</span>
+                        <div><a href="https://www.investing.com/news/company-news/janus-henderson-board-rejects-rival-bid-backs-trian-deal-93CH-4554247" target="_blank">Janus Henderson Board Rejects Rival Bid, Backs Trian Deal</a><span class="news-source">Investing.com</span></div>
+                    </div>
+                    <div class="news-item">
+                        <span class="news-date">Mar 11</span>
+                        <div><a href="https://www.marketsmedia.com/janus-henderson-rejects-victory-capitals-rival-proposal/" target="_blank">Janus Henderson Rejects Victory Capital's Rival Proposal</a><span class="news-source">Markets Media</span></div>
+                    </div>
+                    <div class="news-item">
+                        <span class="news-date">Mar 11</span>
+                        <div><a href="https://www.planadviser.com/no-victory-here-janus-hendersen-board-turns-down-proposal/" target="_blank">No Victory Here: Janus Henderson Board Turns Down Proposal</a><span class="news-source">PLANADVISER</span></div>
+                    </div>
+                </div>
+
+                <h3 style="margin: 25px 0 15px;">February 2026 &mdash; Victory's Public Bid</h3>
+                <div class="news-list">
+                    <div class="news-item">
+                        <span class="news-date">Feb 26</span>
+                        <div><a href="https://www.businesswire.com/news/home/20260226157030/en/Victory-Capital-Affirms-Fully-Financed-Clearly-Superior-Proposal-to-Acquire-Janus-Henderson" target="_blank">Victory Capital Affirms Fully Financed $57.04 Proposal to Acquire Janus Henderson</a><span class="news-source">BusinessWire</span></div>
+                    </div>
+                    <div class="news-item">
+                        <span class="news-date">Feb 26</span>
+                        <div><a href="https://www.bloomberg.com/news/articles/2026-02-26/victory-capital-offers-to-buy-janus-henderson-for-57-04-a-share" target="_blank">Victory Capital Bids $57.04 a Share to Acquire Janus Henderson</a><span class="news-source">Bloomberg</span></div>
+                    </div>
+                    <div class="news-item">
+                        <span class="news-date">Feb 26</span>
+                        <div><a href="https://www.planadviser.com/victory-capital-moves-to-outbid-trian-for-janus-henderson/" target="_blank">Victory Capital Moves to Outbid Trian for Janus Henderson</a><span class="news-source">PLANADVISER</span></div>
+                    </div>
+                    <div class="news-item">
+                        <span class="news-date">Feb 26</span>
+                        <div><a href="https://www.ai-cio.com/news/victory-capital-makes-competing-bid-for-janus-henderson/" target="_blank">Victory Capital Makes Competing Bid for Janus Henderson</a><span class="news-source">Chief Investment Officer</span></div>
+                    </div>
+                </div>
+
+                <h3 style="margin: 25px 0 15px;">December 2025 &mdash; Original Deal</h3>
+                <div class="news-list">
+                    <div class="news-item">
+                        <span class="news-date">Dec 22</span>
+                        <div><a href="https://ir.janushenderson.com/News--Events/news/news-details/2025/Janus-Henderson-Group-plc-to-be-Acquired-by-Trian-Fund-Management-and-General-Catalyst-for-7-4-Billion/default.aspx" target="_blank">Janus Henderson to be Acquired by Trian and General Catalyst for $7.4 Billion</a><span class="news-source">JHG Investor Relations</span></div>
+                    </div>
+                </div>
+
+                <h3 style="margin: 25px 0 15px;">SEC Filings &amp; Proxy</h3>
+                <div class="news-list">
+                    <div class="news-item">
+                        <span class="news-date">Proxy</span>
+                        <div><a href="https://www.stocktitan.net/sec-filings/JHG/defm14a-janus-henderson-group-plc-merger-proxy-statement-c3f47c52d194.html" target="_blank">Definitive Merger Proxy Statement (DEFM14A) &mdash; $49.00/share, Vote April 16</a><span class="news-source">SEC / Stock Titan</span></div>
+                    </div>
+                    <div class="news-item">
+                        <span class="news-date">Filing</span>
+                        <div><a href="https://finance.yahoo.com/quote/JHG/" target="_blank">JHG Stock Quote &mdash; Real-Time Price</a><span class="news-source">Yahoo Finance</span></div>
                     </div>
                 </div>
             </div>
@@ -602,16 +671,33 @@
     </main>
 
     <script>
+        // Math.erf polyfill (Abramowitz & Stegun approximation)
+        if (!Math.erf) {
+            Math.erf = function(x) {
+                var a1 =  0.254829592;
+                var a2 = -0.284496736;
+                var a3 =  1.421413741;
+                var a4 = -1.453152027;
+                var a5 =  1.061405429;
+                var p  =  0.3275911;
+                var sign = x < 0 ? -1 : 1;
+                x = Math.abs(x);
+                var t = 1.0 / (1.0 + p * x);
+                var y = 1.0 - (((((a5 * t + a4) * t) + a3) * t + a2) * t + a1) * t * Math.exp(-x * x);
+                return sign * y;
+            };
+        }
+
         // Tab Navigation
-        function showTab(tabId) {
+        function showTab(tabId, btn) {
             document.querySelectorAll('.tab-panel').forEach(function(p) { p.classList.remove('active'); });
             document.getElementById(tabId).classList.add('active');
             document.querySelectorAll('.nav-tab').forEach(function(t) { t.classList.remove('active'); });
-            event.target.classList.add('active');
+            btn.classList.add('active');
             window.scrollTo(0, 0);
             if (tabId === 'charts') initCharts();
         }
-        
+
         // Normal CDF
         function normalCDF(x) {
             return 0.5 * (1 + Math.erf(x / Math.sqrt(2)));
@@ -777,37 +863,37 @@
                 new Chart(probCtx, {
                     type: 'doughnut',
                     data: {
-                        labels: ['Trian Success (35%)', 'Victory Success (23%)', 'Deal Collapse (42%)'],
+                        labels: ['Trian Closes at $49 (75%)', 'Trian Enhances (10%)', 'Deal Collapse (10%)', 'New Bidder (5%)'],
                         datasets: [{
-                            data: [35, 23, 42],
-                            backgroundColor: ['#003B5C', '#C9A961', '#DC3545']
+                            data: [75, 10, 10, 5],
+                            backgroundColor: ['#003B5C', '#C9A961', '#DC3545', '#0077C8']
                         }]
                     },
                     options: {
                         responsive: true,
                         maintainAspectRatio: false,
-                        plugins: { title: { display: true, text: 'Scenario Probability Distribution' } }
+                        plugins: { title: { display: true, text: 'Scenario Probability Distribution (Post-Victory Rejection)' } }
                     }
                 });
             }
-            
+
             // Payoff Chart
             var payoffCtx = document.getElementById('payoffChart');
             if (payoffCtx) {
                 new Chart(payoffCtx, {
                     type: 'bar',
                     data: {
-                        labels: ['Trian Success', 'Victory Success', 'Deal Collapse'],
+                        labels: ['Trian Closes ($49)', 'Trian Enhances ($52)', 'Deal Collapse ($44)', 'New Bidder ($55)'],
                         datasets: [{
-                            label: 'Return (%)',
-                            data: [-6.1, 9.3, -15.8],
-                            backgroundColor: ['#DC3545', '#28A745', '#DC3545']
+                            label: 'Return from $51.64 (%)',
+                            data: [-5.1, 0.7, -14.8, 6.5],
+                            backgroundColor: ['#F5A623', '#28A745', '#DC3545', '#0077C8']
                         }]
                     },
                     options: {
                         responsive: true,
                         maintainAspectRatio: false,
-                        plugins: { title: { display: true, text: 'Merger Arb Payoff Scenarios (from $52.21)' } }
+                        plugins: { title: { display: true, text: 'Merger Arb Payoff Scenarios (from $51.64)' } }
                     }
                 });
             }
