@@ -1,0 +1,186 @@
+.platform-kicker {
+  color: #666;
+  font-size: 13px;
+  margin-bottom: 18px;
+  max-width: 880px;
+}
+
+.platform-metrics {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 14px;
+  margin-bottom: 20px;
+}
+
+.platform-metric {
+  background: #fff;
+  border: 1px solid #e3e8ed;
+  border-radius: 8px;
+  padding: 16px;
+}
+
+.platform-metric .label {
+  color: #667;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .03em;
+  text-transform: uppercase;
+}
+
+.platform-metric .value {
+  color: var(--primary);
+  font-size: 24px;
+  font-weight: 800;
+  margin-top: 6px;
+}
+
+.portfolio-table td:first-child span {
+  color: #777;
+  display: block;
+  font-size: 11px;
+  margin-top: 2px;
+}
+
+.portfolio-row {
+  cursor: pointer;
+}
+
+.portfolio-row.selected {
+  background: #e8f4fc;
+}
+
+.option-detail-grid {
+  display: grid;
+  grid-template-columns: minmax(280px, .95fr) minmax(320px, 1.2fr);
+  gap: 20px;
+}
+
+.option-metric-list {
+  display: grid;
+  gap: 10px;
+}
+
+.option-metric-list div {
+  align-items: center;
+  background: #f8f9fa;
+  border-radius: 8px;
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 12px;
+}
+
+.option-metric-list span {
+  color: #666;
+  font-size: 12px;
+}
+
+.option-metric-list strong {
+  color: var(--primary);
+}
+
+.decision-pill {
+  background: #e8f4fc;
+  border-radius: 999px;
+  color: var(--primary);
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 4px 9px;
+}
+
+.initiative-form {
+  display: grid;
+  gap: 14px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 14px;
+}
+
+.initiative-form label {
+  color: #333;
+  display: grid;
+  font-size: 12px;
+  font-weight: 700;
+  gap: 6px;
+}
+
+.initiative-form input,
+.initiative-form select,
+.initiative-form textarea,
+.platform-json {
+  border: 1px solid #ccd5dd;
+  border-radius: 7px;
+  font: inherit;
+  padding: 10px;
+}
+
+.initiative-form textarea,
+.platform-json {
+  min-height: 92px;
+  resize: vertical;
+}
+
+.platform-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.platform-btn {
+  background: var(--primary);
+  border: 0;
+  border-radius: 6px;
+  color: #fff;
+  cursor: pointer;
+  font-weight: 700;
+  padding: 10px 14px;
+}
+
+.platform-btn.secondary {
+  background: #e8f4fc;
+  color: var(--primary);
+}
+
+.research-source {
+  border-left: 3px solid var(--secondary);
+  padding: 0 0 16px 14px;
+}
+
+.research-source h4 {
+  margin-bottom: 4px;
+}
+
+.research-source h4 a {
+  color: var(--secondary);
+  text-decoration: none;
+}
+
+.research-source div {
+  color: #888;
+  font-size: 11px;
+  margin-bottom: 5px;
+}
+
+.research-source p {
+  color: #555;
+  font-size: 13px;
+}
+
+.current-case-alert {
+  background: #e8f4fc;
+  border: 1px solid #b8daff;
+  border-radius: 8px;
+  color: var(--primary);
+  font-size: 13px;
+  margin-bottom: 16px;
+  padding: 12px 14px;
+}
+
+@media (max-width: 760px) {
+  .option-detail-grid {
+    grid-template-columns: 1fr;
+  }
+}
